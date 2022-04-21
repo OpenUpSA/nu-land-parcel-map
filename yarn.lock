@@ -664,6 +664,13 @@
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.8.tgz#30744afdb385e2945e22f3b033f897f76b1f12ca"
   integrity sha512-1rkryxURpr6aWP7R786/UQOkJ3PcpQiWkAXBmdWc7ryFWqN6a4xfK7BtjXvFBKO9LjQ+MWQSWxYeZX1OApnArA==
 
+"@types/leaflet-fullscreen@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@types/leaflet-fullscreen/-/leaflet-fullscreen-1.0.6.tgz#ffa2644fa80b9c1cfeb5aa8fbb70daaf1d527520"
+  integrity sha512-Kd0T+YDJgtiY02iwjbt2zntGdzGZ+/4MspAJchu5WXz1uoE4EE1K4zmVAOjKFTX/fwzA6OTZBmefVyE3H+HSYg==
+  dependencies:
+    "@types/leaflet" "*"
+
 "@types/leaflet.gridlayer.googlemutant@^0.4.6":
   version "0.4.6"
   resolved "https://registry.yarnpkg.com/@types/leaflet.gridlayer.googlemutant/-/leaflet.gridlayer.googlemutant-0.4.6.tgz#86d3ba9d432dec29b4796e37d815c233680e7fcb"
@@ -1186,6 +1193,11 @@ json5@^2.2.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/json5/-/json5-2.2.1.tgz#655d50ed1e6f95ad1a3caababd2b0efda10b395c"
   integrity sha512-1hqLFMSrGHRHxav9q9gNjJ5EXznIxGVO09xQRrwplcS8qs28pZ8s8hupZAmqDwZUmVZ2Qb2jnyPOWcDH8m8dlA==
+
+leaflet-fullscreen@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/leaflet-fullscreen/-/leaflet-fullscreen-1.0.2.tgz#09c61c4bac45f63b2ee126afd87e5cd97650fc1b"
+  integrity sha1-CcYcS6xF9jsu4Sav2H5c2XZQ/Bs=
 
 leaflet.gridlayer.googlemutant@^0.13.5:
   version "0.13.5"
