@@ -6,7 +6,18 @@ import "leaflet.gridlayer.googlemutant";
 import "leaflet-fullscreen";
 
 const LandMap = async function () {
-  const map = new L.Map("map", { fullscreenControl: true });  
+  const map = new L.Map("map", {
+    zoomControl: false,
+    attributionControl: false,
+  });
+
+  L.control.zoom({ position: "bottomright" }).addTo(map);
+
+  map.addControl(
+    new L.Control.Fullscreen({
+      position: "bottomright",
+    })
+  );
 
   L.gridLayer
     .googleMutant({
