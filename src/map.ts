@@ -38,7 +38,6 @@ const LandMap = async function () {
 
   const mapCenter = layer.getBounds().getCenter();
   map.setView(mapCenter, 9);
-  console.log(mapCenter);
 };
 
 export default LandMap;
