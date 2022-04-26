@@ -5,7 +5,22 @@ import L from "leaflet";
 import "leaflet.gridlayer.googlemutant";
 import "leaflet-fullscreen";
 import * as geojson from "./data/complete.json";
-//console.log(data.length);
+
+const legendParcelProperty = "Owner";
+let legendParcelItems = new Set();
+geojson["features"].forEach((parcel) => {
+  let parcelPropertyValue = parcel["properties"][legendParcelProperty]
+    .trim()
+    .replace(/[\?\(\)]/g, "")
+    .toUpperCase();
+  parcelPropertyValue.split(/,|AND/).forEach((value) => {
+    if (value) {
+      legendParcelItems.add(value.trim());
+    }
+  });
+});
+
+import "./legend-control";
 
 const LandMap = async function () {
   const map = new L.Map("map", {
@@ -56,6 +71,13 @@ const LandMap = async function () {
       weight: 1,
     },
   }).addTo(map);
+
+  L.control
+    .legend({
+      legendItemsChecked: ["CCT"],
+      legendItems: Array.from(legendParcelItems).sort(),
+    })
+    .addTo(map);
 
   const mapCenter = layer.getBounds().getCenter();
   map.setView(mapCenter, 12);

@@ -1,0 +1,58 @@
+.leaflet-control-legend {
+  background-color: white;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+  width: 20em;
+
+  .leaflet-control-legend-header {
+    .leaflet-control-legend-header-text {
+      font-weight: bold;
+      padding: 10px;
+      width: 50%;
+    }
+
+    .leaflet-control-legend-header-button {
+        cursor: pointer;
+        float: right;
+        border: none;
+        background-color: transparent;
+        height: 40px;
+        width: 40px;
+        background-image: url(./images/arrow-down.png);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 40%;
+    }
+  }
+
+  &.collapsed {
+    .leaflet-control-legend-header-button {
+      background-image: url(./images/arrow-up.png);
+    }
+
+    .leaflet-control-legend-list {
+      display: none;
+    }
+  }
+
+  .leaflet-control-legend-list {
+    overflow-y: scroll;
+    max-height: 400px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
+    .leaflet-control-legend-list-item {
+      border-top: solid 1px #ddd;
+      padding: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      .leaflet-control-legend-list-item-input {
+        margin-right: 10px;
+        vertical-align: -2px;
+      }
+    }
+  }
+}
