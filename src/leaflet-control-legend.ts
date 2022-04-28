@@ -45,7 +45,7 @@ L.Control.Legend = L.Control.extend({
     headerTogggleCheckbox.checked = true;
 
     headerTogggleCheckbox.addEventListener("change", () => {
-      document.querySelectorAll("input[type=checkbox]").forEach((item) => {
+      document.querySelectorAll("input[type=checkbox].leaflet-control-legend-list-item-input").forEach((item) => {
         item.checked = headerTogggleCheckbox.checked;
       });
     });
