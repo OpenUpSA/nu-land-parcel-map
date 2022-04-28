@@ -1,7 +1,3 @@
-export const randomHexColor = function () {
-  return Math.floor(Math.random() * 16777215).toString(16);
-};
-
 export const hlsGen = function (seed) {
   if (isNaN(seed)) {
     seed = 0;
@@ -19,11 +15,9 @@ export const hlsGen = function (seed) {
     }
   }
 
-  ///return function () {
   const H = getH();
   const L = 40 + random() * 20 + "%";
   return `hsl(${H}, 100%, ${L})`;
-  //};
 };
 
 const mulberry32 = function (seed = Date.now()) {

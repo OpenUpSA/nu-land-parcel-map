@@ -5,9 +5,10 @@ import L from "leaflet";
 import "leaflet.gridlayer.googlemutant";
 import "leaflet-fullscreen";
 import * as geojson from "./data/complete.json";
-import { randomHexColor, hlsGen, cyrb53 } from "./utils";
+import { hlsGen, cyrb53 } from "./utils";
 import "./leaflet-control-legend";
 import "./leaflet-control-search";
+import * as mapStyles from "./map-style.json";
 
 const urlSearch = new URLSearchParams(window.location.search);
 const legendParcelPropertyBlankValue = "NONE";
@@ -51,44 +52,7 @@ const LandMap = async function () {
   L.gridLayer
     .googleMutant({
       type: "roadmap",
-      styles: [
-        {
-          elementType: "geometry.fill",
-          stylers: [
-            {
-              saturation: -100,
-            },
-          ],
-        },
-        {
-          elementType: "geometry.stroke",
-          stylers: [
-            {
-              saturation: -100,
-            },
-          ],
-        },
-        {
-          featureType: "road",
-          elementType: "labels",
-          stylers: [{ visibility: "off" }],
-        },
-        {
-          featureType: "transit",
-          elementType: "labels",
-          stylers: [{ visibility: "off" }],
-        },
-        {
-          featureType: "poi",
-          elementType: "labels",
-          stylers: [{ visibility: "off" }],
-        },
-        {
-          featureType: "landscape",
-          elementType: "labels",
-          stylers: [{ visibility: "off" }],
-        },
-      ],
+      styles: mapStyles,
     })
     .addTo(map);
 
@@ -103,7 +67,10 @@ const LandMap = async function () {
 
   layer.getLayers().forEach((layer) => {
     layer.setStyle({
-      fillColor: legendParcelItems[layer.feature.properties[legendParcelProperty]]["color"],
+      fillColor:
+        legendParcelItems[layer.feature.properties[legendParcelProperty]][
+          "color"
+        ],
     });
   });
 
