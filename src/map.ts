@@ -6,8 +6,10 @@ import "leaflet.gridlayer.googlemutant";
 import "leaflet-fullscreen";
 import * as geojson from "./data/complete.json";
 import { randomHexColor, hlsGen, cyrb53 } from "./utils";
+import "./leaflet-control-legend";
+import "./leaflet-control-search";
 
-const legendParcelPropertyBlankValue = "NO OWNER";
+const legendParcelPropertyBlankValue = "NONE";
 const legendParcelProperty = "Owner";
 const legendParcelPropertyColors = {};
 let legendParcelItems = {};
@@ -25,8 +27,6 @@ geojson["features"].forEach((parcel) => {
   const color = hlsGen(hashcode);
   legendParcelItems[parcelPropertyValue] = color;
 });
-
-import "./legend-control";
 
 const LandMap = async function () {
   const map = new L.Map("map", {
@@ -101,12 +101,15 @@ const LandMap = async function () {
     });
   });
 
-  console.log(legendParcelItems);
-
-  console.log(Array.from(legendParcelItems).sort());
-
   L.control
     .legend({
+      legendItemsChecked: ["CCT"],
+      legendItems: legendParcelItems,
+    })
+    .addTo(map);
+
+  L.control
+    .search({
       legendItemsChecked: ["CCT"],
       legendItems: legendParcelItems,
     })
