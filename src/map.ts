@@ -12,6 +12,31 @@ import "./leaflet-control-search";
 import * as mapStyles from "./map-style.json";
 
 const excludeShowingProperties = ["path"];
+const excludeLegendProperties = [
+  "path",
+  "PRTY_NMBR",
+  "ADR_NO",
+  "ADR_NO_SFX",
+  "Address",
+  "Developmen",
+  "GR 2015 va",
+  "GR2018",
+  "ALT_NAME",
+  "Handles",
+  "Imagery",
+  "Inner City",
+  "Mapped Onl",
+  "Name",
+  "OBJECTID",
+  "OFC_SBRB_N",
+  "SHAPESTAre",
+  "SHAPESTLen",
+  "Status Ref",
+  "STR_NAME",
+  "SUB_CNCL_N",
+  "Summary ta",
+  "Zoning_1",
+];
 const urlSearch = new URLSearchParams(window.location.search);
 const legendParcelProperty = urlSearch.get("property") || "Owner";
 const legendParcelPropertyBucket =
@@ -103,7 +128,9 @@ const LandMap = async function () {
 
     const properties = layer.feature.properties;
     const propertyKeys = orderBy(Object.keys(properties));
-    legendProperties = propertyKeys;
+    legendProperties = propertyKeys.filter((key) => {
+      return !excludeLegendProperties.includes(key);
+    });
     let contentString = `<div class="parcel-popup-content"><div class="parcel-popup-header">${properties["STR_NAME"]}</div>`;
     contentString +=
       '<table class="parcel-popup-table" cellpadding="0" cellspacing="0">';
