@@ -22,11 +22,34 @@ L.Control.Legend = L.Control.extend({
       "leaflet-control-legend-header",
       container
     );
+
     const headerButton = L.DomUtil.create(
       "button",
       "leaflet-control-legend-header-button",
       header
     );
+
+    let headerToggleCheckboxWrappper = L.DomUtil.create(
+      "span",
+      "leaflet-control-legend-list-item-input-wrapper",
+      header
+    );
+
+    let headerTogggleCheckbox = L.DomUtil.create(
+      "input",
+      "leaflet-control-legend-header-toggle",
+      headerToggleCheckboxWrappper
+    );
+
+    headerTogggleCheckbox.type = "checkbox";
+    headerTogggleCheckbox.checked = true;
+
+    headerTogggleCheckbox.addEventListener("change", () => {
+      document.querySelectorAll("input[type=checkbox]").forEach((item) => {
+        item.checked = headerTogggleCheckbox.checked;
+      });
+    });
+
     const headerText = L.DomUtil.create(
       "div",
       "leaflet-control-legend-header-text",
