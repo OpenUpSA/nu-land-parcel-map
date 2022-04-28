@@ -8,6 +8,14 @@
       white-space: nowrap;
       font-weight: bold;
       padding: 10px 50px 10px 10px;
+
+      .leaflet-control-legend-header-text-title {
+        padding-right: 0.5em;
+      }
+
+      .leaflet-control-legend-header-text-property-count {
+        padding-left: 0.5em;
+      }
     }
 
     .leaflet-control-legend-header-button {

@@ -16,6 +16,8 @@ const urlSearch = new URLSearchParams(window.location.search);
 const legendParcelProperty = urlSearch.get("property") || "Owner";
 const legendParcelPropertyBucket =
   urlSearch.get("propertyBucket") === "true" || false;
+const legendParcelPropertyBucketValue =
+  urlSearch.get("propertyBucketValue") || 15000;
 const legendParcelPropertyBlankValue =
   urlSearch.get("propertyBlankValue") || "NONE";
 let legendParcelItems = {};
@@ -30,7 +32,10 @@ geojson["features"].forEach((parcel) => {
   }
 
   if (legendParcelPropertyBucket) {
-    parcelPropertyValue = roundNearest(parcelPropertyValue);
+    parcelPropertyValue = roundNearest(
+      parcelPropertyValue,
+      legendParcelPropertyBucketValue
+    );
   }
 
   parcel["properties"][legendParcelProperty] = parcelPropertyValue;
@@ -79,6 +84,8 @@ const LandMap = async function () {
     },
   }).addTo(map);
 
+  let legendProperties = [];
+
   layers.getLayers().forEach((layer) => {
     const color =
       legendParcelItems[layer.feature.properties[legendParcelProperty]][
@@ -96,6 +103,7 @@ const LandMap = async function () {
 
     const properties = layer.feature.properties;
     const propertyKeys = orderBy(Object.keys(properties));
+    legendProperties = propertyKeys;
     let contentString = `<div class="parcel-popup-content"><div class="parcel-popup-header">${properties["STR_NAME"]}</div>`;
     contentString +=
       '<table class="parcel-popup-table" cellpadding="0" cellspacing="0">';
@@ -132,6 +140,7 @@ const LandMap = async function () {
       legendItemsChecked: ["CCT"],
       legendItems: legendParcelItems,
       legendProperty: legendParcelProperty,
+      legendProperties: legendProperties,
     })
     .addTo(map);
 

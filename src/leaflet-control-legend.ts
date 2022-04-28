@@ -1,14 +1,14 @@
 import L from "leaflet";
 import "./leaflet-control-legend.scss";
-import { orderBy } from 'natural-orderby'
-
+import { orderBy } from "natural-orderby";
 
 L.Control.Legend = L.Control.extend({
   options: {
     position: "bottomleft",
     legendItems: {},
     legendItemsChecked: [],
-    legendProperty: ''
+    legendProperty: "",
+    legendProperties: [],
   },
 
   onAdd: function () {
@@ -32,7 +32,43 @@ L.Control.Legend = L.Control.extend({
       "leaflet-control-legend-header-text",
       header
     );
-    headerText.innerText = `Map legend: ${this.options.legendProperty} (${legendItemKeys.length})`;
+
+    const headerTextTitle = L.DomUtil.create(
+      "span",
+      "leaflet-control-legend-header-text-title",
+      headerText
+    );
+    headerTextTitle.innerText = "Map legend:";
+
+    const headerSelect = L.DomUtil.create(
+      "select",
+      "leaflet-control-legend-header-select",
+      headerText
+    );
+
+    this.options.legendProperties.forEach((property) => {
+      const option = L.DomUtil.create(
+        "option",
+        "leaflet-control-legend-header-select-option",
+        headerSelect
+      );
+      option.innerText = property;
+      option.value = property;
+      if (property == this.options.legendProperty) {
+        option.selected = true;
+      }
+    });
+
+    const headerTextPropertyCount = L.DomUtil.create(
+      "span",
+      "leaflet-control-legend-header-text-property-count",
+      headerText
+    );
+    headerTextPropertyCount.innerText = `(${legendItemKeys.length})`;
+
+    headerSelect.addEventListener("change", (e) => {
+      window.document.location.search = "property=" + e.target.value;
+    });
 
     headerButton.addEventListener("click", () => {
       const legend = document.querySelector(".leaflet-control-legend");
@@ -48,7 +84,6 @@ L.Control.Legend = L.Control.extend({
       "leaflet-control-legend-list",
       container
     );
-
 
     legendItemKeys.forEach((key) => {
       const item = this.options.legendItems[key];
@@ -76,7 +111,10 @@ L.Control.Legend = L.Control.extend({
         listItemCheckboxWrappper
       );
 
-      listItemCheckboxWrappper.style.setProperty("background-color", item['color']);
+      listItemCheckboxWrappper.style.setProperty(
+        "background-color",
+        item["color"]
+      );
 
       listItemCheckbox.type = "checkbox";
       listItemCheckbox.checked = true;
@@ -97,7 +135,7 @@ L.Control.Legend = L.Control.extend({
         listItemLabel
       );
 
-      listItemCount.innerText = item['count'];
+      listItemCount.innerText = item["count"];
     });
 
     return container;
