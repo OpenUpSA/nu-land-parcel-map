@@ -5,19 +5,25 @@ import L from "leaflet";
 import "leaflet.gridlayer.googlemutant";
 import "leaflet-fullscreen";
 import * as geojson from "./data/complete.json";
+import { randomHexColor, hlsGen, cyrb53 } from "./utils";
 
+const legendParcelPropertyBlankValue = "NO OWNER";
 const legendParcelProperty = "Owner";
-let legendParcelItems = new Set();
+const legendParcelPropertyColors = {};
+let legendParcelItems = {};
+
 geojson["features"].forEach((parcel) => {
   let parcelPropertyValue = parcel["properties"][legendParcelProperty]
     .trim()
     .replace(/[\?\(\)]/g, "")
     .toUpperCase();
-  parcelPropertyValue.split(/,|AND/).forEach((value) => {
-    if (value) {
-      legendParcelItems.add(value.trim());
-    }
-  });
+  if (parcelPropertyValue === "") {
+    parcelPropertyValue = legendParcelPropertyBlankValue;
+  }
+  parcel["properties"][legendParcelProperty] = parcelPropertyValue;
+  const hashcode = cyrb53(parcelPropertyValue);
+  const color = hlsGen(hashcode);
+  legendParcelItems[parcelPropertyValue] = color;
 });
 
 import "./legend-control";
@@ -40,6 +46,22 @@ const LandMap = async function () {
     .googleMutant({
       type: "roadmap",
       styles: [
+        {
+          elementType: "geometry.fill",
+          stylers: [
+            {
+              saturation: -100,
+            },
+          ],
+        },
+        {
+          elementType: "geometry.stroke",
+          stylers: [
+            {
+              saturation: -100,
+            },
+          ],
+        },
         {
           featureType: "road",
           elementType: "labels",
@@ -66,16 +88,27 @@ const LandMap = async function () {
 
   const layer = L.geoJSON(geojson, {
     style: {
-      color: "#999",
-      fillOpacity: 0.01,
-      weight: 1,
+      color: "#fc0",
+      fillOpacity: 0.5,
+      fillColor: "#fc0",
+      weight: 0,
     },
   }).addTo(map);
+
+  layer.getLayers().forEach((layer) => {
+    layer.setStyle({
+      fillColor: legendParcelItems[layer.feature.properties["Owner"]],
+    });
+  });
+
+  console.log(legendParcelItems);
+
+  console.log(Array.from(legendParcelItems).sort());
 
   L.control
     .legend({
       legendItemsChecked: ["CCT"],
-      legendItems: Array.from(legendParcelItems).sort(),
+      legendItems: legendParcelItems,
     })
     .addTo(map);
 

@@ -2,7 +2,7 @@
   background-color: white;
   box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.65);
   font-size: 14px;
-  width: 20em;
+  width: 260px;
 
   .leaflet-control-legend-header {
     .leaflet-control-legend-header-text {
@@ -12,16 +12,16 @@
     }
 
     .leaflet-control-legend-header-button {
-        cursor: pointer;
-        float: right;
-        border: none;
-        background-color: transparent;
-        height: 40px;
-        width: 40px;
-        background-image: url(./images/arrow-down.png);
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 40%;
+      cursor: pointer;
+      float: right;
+      border: none;
+      background-color: transparent;
+      height: 40px;
+      width: 40px;
+      background-image: url(./images/arrow-down.png);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 40%;
     }
   }
 
@@ -44,14 +44,22 @@
 
     .leaflet-control-legend-list-item {
       border-top: solid 1px #ddd;
-      padding: 10px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      overflow: auto;
 
-      .leaflet-control-legend-list-item-input {
-        margin-right: 10px;
-        vertical-align: -2px;
+      .leaflet-control-legend-list-item-input-wrapper {
+        display: inline-block;
+        padding: 5px 4px 2px 3px;
+        margin: 6px 5px 3px 8px;
+      }
+
+      .leaflet-control-legend-list-item-text {
+        padding: 11px 10px 9px 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 190px;
+        float: right;
+        display: block;
       }
     }
   }
