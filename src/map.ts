@@ -9,9 +9,9 @@ import { randomHexColor, hlsGen, cyrb53 } from "./utils";
 import "./leaflet-control-legend";
 import "./leaflet-control-search";
 
+const urlSearch = new URLSearchParams(window.location.search);
 const legendParcelPropertyBlankValue = "NONE";
-const legendParcelProperty = "Owner";
-const legendParcelPropertyColors = {};
+const legendParcelProperty = urlSearch.get("property") || "Owner";
 let legendParcelItems = {};
 
 geojson["features"].forEach((parcel) => {
@@ -19,13 +19,20 @@ geojson["features"].forEach((parcel) => {
     .trim()
     .replace(/[\?\(\)]/g, "")
     .toUpperCase();
+
   if (parcelPropertyValue === "") {
     parcelPropertyValue = legendParcelPropertyBlankValue;
   }
+
   parcel["properties"][legendParcelProperty] = parcelPropertyValue;
   const hashcode = cyrb53(parcelPropertyValue);
   const color = hlsGen(hashcode);
-  legendParcelItems[parcelPropertyValue] = color;
+
+  if (legendParcelItems[parcelPropertyValue]) {
+    legendParcelItems[parcelPropertyValue]["count"]++;
+  } else {
+    legendParcelItems[parcelPropertyValue] = { color: color, count: 1 };
+  }
 });
 
 const LandMap = async function () {
@@ -97,7 +104,7 @@ const LandMap = async function () {
 
   layer.getLayers().forEach((layer) => {
     layer.setStyle({
-      fillColor: legendParcelItems[layer.feature.properties["Owner"]],
+      fillColor: legendParcelItems[layer.feature.properties[legendParcelProperty]]["color"],
     });
   });
 
@@ -105,15 +112,11 @@ const LandMap = async function () {
     .legend({
       legendItemsChecked: ["CCT"],
       legendItems: legendParcelItems,
+      legendProperty: legendParcelProperty,
     })
     .addTo(map);
 
-  L.control
-    .search({
-      legendItemsChecked: ["CCT"],
-      legendItems: legendParcelItems,
-    })
-    .addTo(map);
+  L.control.search().addTo(map);
 
   const mapCenter = layer.getBounds().getCenter();
   map.setView(mapCenter, 12);

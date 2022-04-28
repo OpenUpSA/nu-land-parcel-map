@@ -2,13 +2,12 @@
   background-color: white;
   box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.65);
   font-size: 14px;
-  width: 260px;
 
   .leaflet-control-legend-header {
     .leaflet-control-legend-header-text {
+      white-space: nowrap;
       font-weight: bold;
-      padding: 10px;
-      width: 50%;
+      padding: 10px 50px 10px 10px;
     }
 
     .leaflet-control-legend-header-button {
@@ -31,13 +30,14 @@
     }
 
     .leaflet-control-legend-list {
-      display: none;
+      height: 0;
     }
   }
 
   .leaflet-control-legend-list {
+    transition: all 0.3s ease-in-out;  
     overflow-y: scroll;
-    max-height: 400px;
+    height: 400px;
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -46,10 +46,17 @@
       border-top: solid 1px #ddd;
       overflow: auto;
 
+      .leaflet-control-legend-list-item-label {
+        cursor: pointer;
+        display: block;
+        overflow: hidden;
+      }
+
       .leaflet-control-legend-list-item-input-wrapper {
         display: inline-block;
         padding: 5px 4px 2px 3px;
         margin: 6px 5px 3px 8px;
+        float: left;
       }
 
       .leaflet-control-legend-list-item-text {
@@ -57,9 +64,15 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        width: 190px;
-        float: right;
+        float: left;
         display: block;
+      }
+
+      .leaflet-control-legend-list-item-count {
+        padding: 11px 10px 9px 0;
+        display: inline-block;
+        float: right;
+        font-weight: bold;
       }
     }
   }
