@@ -5,14 +5,19 @@ import L from "leaflet";
 import "leaflet.gridlayer.googlemutant";
 import "leaflet-fullscreen";
 import * as geojson from "./data/complete.json";
-import { hlsGen, cyrb53 } from "./utils";
+import { roundNearest, hlsGen, cyrb53 } from "./utils";
+import { orderBy } from "natural-orderby";
 import "./leaflet-control-legend";
 import "./leaflet-control-search";
 import * as mapStyles from "./map-style.json";
 
+const excludeShowingProperties = ["path"];
 const urlSearch = new URLSearchParams(window.location.search);
-const legendParcelPropertyBlankValue = "NONE";
 const legendParcelProperty = urlSearch.get("property") || "Owner";
+const legendParcelPropertyBucket =
+  urlSearch.get("propertyBucket") === "true" || false;
+const legendParcelPropertyBlankValue =
+  urlSearch.get("propertyBlankValue") || "NONE";
 let legendParcelItems = {};
 
 geojson["features"].forEach((parcel) => {
@@ -24,8 +29,17 @@ geojson["features"].forEach((parcel) => {
     parcelPropertyValue = legendParcelPropertyBlankValue;
   }
 
+  if (legendParcelPropertyBucket) {
+    parcelPropertyValue = roundNearest(parcelPropertyValue);
+  }
+
   parcel["properties"][legendParcelProperty] = parcelPropertyValue;
-  const hashcode = cyrb53(parcelPropertyValue);
+  const stringSeed = legendParcelPropertyBucket
+    ? ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"][
+        parseInt(parcelPropertyValue.toString()[0])
+      ]
+    : "";
+  const hashcode = cyrb53(stringSeed + parcelPropertyValue);
   const color = hlsGen(hashcode);
 
   if (legendParcelItems[parcelPropertyValue]) {
@@ -56,7 +70,7 @@ const LandMap = async function () {
     })
     .addTo(map);
 
-  const layer = L.geoJSON(geojson, {
+  const layers = L.geoJSON(geojson, {
     style: {
       color: "#fc0",
       fillOpacity: 0.5,
@@ -65,12 +79,51 @@ const LandMap = async function () {
     },
   }).addTo(map);
 
-  layer.getLayers().forEach((layer) => {
+  layers.getLayers().forEach((layer) => {
+    const color =
+      legendParcelItems[layer.feature.properties[legendParcelProperty]][
+        "color"
+      ];
     layer.setStyle({
-      fillColor:
-        legendParcelItems[layer.feature.properties[legendParcelProperty]][
-          "color"
-        ],
+      fillColor: color,
+      color: color,
+    });
+
+    let popup = L.popup({
+      className: "tooltip",
+      closeButton: false,
+    });
+
+    const properties = layer.feature.properties;
+    const propertyKeys = orderBy(Object.keys(properties));
+    let contentString = `<div class="parcel-popup-content"><div class="parcel-popup-header">${properties["STR_NAME"]}</div>`;
+    contentString +=
+      '<table class="parcel-popup-table" cellpadding="0" cellspacing="0">';
+    propertyKeys.forEach((key) => {
+      if (
+        properties[key] !== "" &&
+        excludeShowingProperties.indexOf(key) === -1
+      ) {
+        contentString += `<tr><td class="parcel-popup-property-key">${key}:</td> <td class="parcel-popup-property-value">${properties[key]}</td></tr>`;
+      }
+    });
+    contentString += "</table>";
+    contentString += "</div>";
+    popup.setContent(contentString);
+    layer.bindPopup(popup);
+    layer.on("mouseover", function (e) {
+      e.target.setStyle({
+        weight: 1,
+        fillOpacity: 0.75,
+      });
+    });
+    layer.on("mouseout", (e) => {
+      e.target.setStyle({
+        fillColor: color,
+        color: color,
+        weight: 0,
+        fillOpacity: 0.5,
+      });
     });
   });
 
@@ -84,7 +137,7 @@ const LandMap = async function () {
 
   L.control.search().addTo(map);
 
-  const mapCenter = layer.getBounds().getCenter();
+  const mapCenter = layers.getBounds().getCenter();
   map.setView(mapCenter, 12);
 };
 

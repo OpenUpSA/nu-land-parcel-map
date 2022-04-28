@@ -1,5 +1,7 @@
 import L from "leaflet";
 import "./leaflet-control-legend.scss";
+import { orderBy } from 'natural-orderby'
+
 
 L.Control.Legend = L.Control.extend({
   options: {
@@ -10,6 +12,7 @@ L.Control.Legend = L.Control.extend({
   },
 
   onAdd: function () {
+    const legendItemKeys = orderBy(Object.keys(this.options.legendItems));
     const container = L.DomUtil.create("div", "leaflet-control-legend");
     L.DomEvent.disableClickPropagation(container);
     L.DomEvent.disableScrollPropagation(container);
@@ -29,7 +32,7 @@ L.Control.Legend = L.Control.extend({
       "leaflet-control-legend-header-text",
       header
     );
-    headerText.innerText = `Map legend (${this.options.legendProperty})`;
+    headerText.innerText = `Map legend: ${this.options.legendProperty} (${legendItemKeys.length})`;
 
     headerButton.addEventListener("click", () => {
       const legend = document.querySelector(".leaflet-control-legend");
@@ -46,7 +49,6 @@ L.Control.Legend = L.Control.extend({
       container
     );
 
-    const legendItemKeys = Object.keys(this.options.legendItems).sort();
 
     legendItemKeys.forEach((key) => {
       const item = this.options.legendItems[key];
