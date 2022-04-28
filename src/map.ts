@@ -17,8 +17,7 @@ let legendParcelItems = {};
 geojson["features"].forEach((parcel) => {
   let parcelPropertyValue = parcel["properties"][legendParcelProperty]
     .trim()
-    .replace(/[\?\(\)]/g, "")
-    .toUpperCase();
+    .replace(/[\?\(\)]/g, "");
 
   if (parcelPropertyValue === "") {
     parcelPropertyValue = legendParcelPropertyBlankValue;
