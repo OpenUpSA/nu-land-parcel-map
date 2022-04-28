@@ -56,12 +56,6 @@ L.Control.Legend = L.Control.extend({
       header
     );
 
-    const headerTextTitle = L.DomUtil.create(
-      "span",
-      "leaflet-control-legend-header-text-title",
-      headerText
-    );
-    headerTextTitle.innerText = "Map legend:";
 
     const headerSelect = L.DomUtil.create(
       "select",

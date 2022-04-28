@@ -105,7 +105,7 @@ const LandMap = async function () {
       color: "#fc0",
       fillOpacity: 0.5,
       fillColor: "#fc0",
-      weight: 0,
+      weight: 1,
     },
   }).addTo(map);
 
@@ -148,7 +148,6 @@ const LandMap = async function () {
     layer.bindPopup(popup);
     layer.on("mouseover", function (e) {
       e.target.setStyle({
-        weight: 1,
         fillOpacity: 0.75,
       });
     });
@@ -156,7 +155,6 @@ const LandMap = async function () {
       e.target.setStyle({
         fillColor: color,
         color: color,
-        weight: 0,
         fillOpacity: 0.5,
       });
     });
