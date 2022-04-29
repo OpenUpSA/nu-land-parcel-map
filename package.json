@@ -1,7 +1,20 @@
 {
+  "name": "nu-land-parcel-map",
+  "version": "0.0.1",
+  "author": {
+    "name": "Paul Watson",
+    "email": "paul@openup.org.za"
+  },
   "license": "MIT",
+  "scripts": {
+    "dev": "yarn parcel src/index.html",
+    "build": "rm -r dist && yarn parcel build src/index.html",
+    "deploy": "yarn build && netlify deploy -d dist"
+  },
   "devDependencies": {
+    "@parcel/packager-raw-url": "2.4.1",
     "@parcel/transformer-sass": "2.4.1",
+    "@parcel/transformer-webmanifest": "2.4.1",
     "parcel": "^2.4.1",
     "typescript": "^4.6.3"
   },
@@ -14,7 +27,6 @@
     "leaflet-fullscreen": "^1.0.2",
     "leaflet-google-places-autocomplete": "^0.0.9",
     "leaflet.gridlayer.googlemutant": "^0.13.5",
-    "natural-orderby": "^2.0.3",
-    "vue": "^3.2.33"
+    "natural-orderby": "^2.0.3"
   }
 }
