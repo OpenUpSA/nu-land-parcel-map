@@ -11,7 +11,18 @@ L.Control.Legend = L.Control.extend({
     legendProperties: [],
   },
 
-  onAdd: function () {
+  updateMap: function (map) {
+    this.fire("updatemap", {
+      checked: Array.from(
+        document.querySelectorAll(
+          "input[type=checkbox].leaflet-control-legend-list-item-input:checked"
+        ),
+        (e) => e.value
+      ),
+    });
+  },
+
+  onAdd: function (map) {
     const legendItemKeys = orderBy(Object.keys(this.options.legendItems));
     const container = L.DomUtil.create("div", "leaflet-control-legend");
     L.DomEvent.disableClickPropagation(container);
@@ -45,9 +56,14 @@ L.Control.Legend = L.Control.extend({
     headerTogggleCheckbox.checked = true;
 
     headerTogggleCheckbox.addEventListener("change", () => {
-      document.querySelectorAll("input[type=checkbox].leaflet-control-legend-list-item-input").forEach((item) => {
-        item.checked = headerTogggleCheckbox.checked;
-      });
+      document
+        .querySelectorAll(
+          "input[type=checkbox].leaflet-control-legend-list-item-input"
+        )
+        .forEach((item) => {
+          item.checked = headerTogggleCheckbox.checked;
+        });
+      this.updateMap(map);
     });
 
     const headerText = L.DomUtil.create(
@@ -55,7 +71,6 @@ L.Control.Legend = L.Control.extend({
       "leaflet-control-legend-header-text",
       header
     );
-
 
     const headerSelect = L.DomUtil.create(
       "select",
@@ -128,6 +143,8 @@ L.Control.Legend = L.Control.extend({
         listItemCheckboxWrappper
       );
 
+      listItemCheckbox.addEventListener("change", (e) => this.updateMap(map));
+
       listItemCheckboxWrappper.style.setProperty(
         "background-color",
         item["color"]
@@ -158,6 +175,8 @@ L.Control.Legend = L.Control.extend({
     return container;
   },
 });
+
+L.extend(L.Control.Legend.prototype, L.Evented.prototype);
 
 L.control.legend = function (options) {
   return new L.Control.Legend(options);

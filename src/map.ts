@@ -11,7 +11,7 @@ import "./leaflet-control-legend";
 import "./leaflet-control-search";
 import * as mapStyles from "./map-style.json";
 
-const excludeShowingProperties = ["path"];
+const excludeShowingProperties = ["path", "ADR_NO"];
 const excludeLegendProperties = [
   "path",
   "PRTY_NMBR",
@@ -121,10 +121,7 @@ const LandMap = async function () {
       color: color,
     });
 
-    let popup = L.popup({
-      className: "tooltip",
-      closeButton: false,
-    });
+    let popup = L.popup();
 
     const properties = layer.feature.properties;
     const propertyKeys = orderBy(Object.keys(properties));
@@ -160,19 +157,42 @@ const LandMap = async function () {
     });
   });
 
-  L.control
+  let legendControl = L.control
     .legend({
       legendItemsChecked: ["CCT"],
       legendItems: legendParcelItems,
       legendProperty: legendParcelProperty,
       legendProperties: legendProperties,
+      layers: layers,
     })
     .addTo(map);
 
-  L.control.search().addTo(map);
+  let hiddenLayers = [];
 
-  const mapCenter = layers.getBounds().getCenter();
-  map.setView(mapCenter, 12);
+  legendControl.on("updatemap", (e) => {
+    const checked = e.checked;
+
+    layers.getLayers().forEach((layer) => {
+      if (!checked.includes(layer.feature.properties[legendParcelProperty])) {
+        hiddenLayers.push(layer);
+        layers.removeLayer(layer);
+      }
+    });
+
+    hiddenLayers.forEach((layer) => {
+      if (checked.includes(layer.feature.properties[legendParcelProperty])) {
+        layers.addLayer(layer);
+      }
+    });
+
+    try {
+      map.fitBounds(layers.getBounds(), { animate: true });
+    } catch (e) {}
+  });
+
+  //L.control.search().addTo(map);
+
+  map.fitBounds(layers.getBounds(), { animate: true });
 };
 
 export default LandMap;
