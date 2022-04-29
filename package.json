@@ -12,6 +12,7 @@
     "@types/leaflet.gridlayer.googlemutant": "^0.4.6",
     "leaflet": "^1.8.0",
     "leaflet-fullscreen": "^1.0.2",
+    "leaflet-google-places-autocomplete": "^0.0.9",
     "leaflet.gridlayer.googlemutant": "^0.13.5",
     "natural-orderby": "^2.0.3",
     "vue": "^3.2.33"

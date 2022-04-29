@@ -1199,6 +1199,11 @@ leaflet-fullscreen@^1.0.2:
   resolved "https://registry.yarnpkg.com/leaflet-fullscreen/-/leaflet-fullscreen-1.0.2.tgz#09c61c4bac45f63b2ee126afd87e5cd97650fc1b"
   integrity sha1-CcYcS6xF9jsu4Sav2H5c2XZQ/Bs=
 
+leaflet-google-places-autocomplete@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/leaflet-google-places-autocomplete/-/leaflet-google-places-autocomplete-0.0.9.tgz#88b20a90948af7158b4bf0a25301a9e595747a30"
+  integrity sha512-NHefPZn53GQIjuAZmwEN/KTy8TobEu8kRU/WlYR58j5WrQU3vZ4w2OKVUCFzKU5jlWxeZP/SQTFhmXf2vkHIeQ==
+
 leaflet.gridlayer.googlemutant@^0.13.5:
   version "0.13.5"
   resolved "https://registry.yarnpkg.com/leaflet.gridlayer.googlemutant/-/leaflet.gridlayer.googlemutant-0.13.5.tgz#7182c26f479e726bff8b85a7ebf9d3f44dd3ea57"

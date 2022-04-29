@@ -11,6 +11,9 @@ import "./controls/legend/index";
 import * as mapStyles from "./config/map-style.json";
 import * as excludeLegendProperties from "./config/exclude-legend-properties.json";
 import * as excludePopupProperties from "./config/exclude-popup-properties.json";
+import "leaflet-google-places-autocomplete";
+import "./controls/google-places-autocomplete/override.scss"
+import {gPlaceAutocompleteConfig} from "./controls/google-places-autocomplete/index.ts";
 
 const urlSearch = new URLSearchParams(window.location.search);
 const legendParcelProperty = urlSearch.get("property") || "Owner";
@@ -164,6 +167,8 @@ const LandMap = async function () {
       map.fitBounds(layers.getBounds(), { animate: true });
     } catch (e) {}
   });
+
+  new L.Control.GPlaceAutocomplete(gPlaceAutocompleteConfig(map)).addTo(map);
 
   map.fitBounds(layers.getBounds(), { animate: true });
 };
