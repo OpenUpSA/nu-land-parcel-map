@@ -7,36 +7,11 @@ import "leaflet-fullscreen";
 import * as geojson from "./data/complete.json";
 import { roundNearest, hlsGen, cyrb53 } from "./utils";
 import { orderBy } from "natural-orderby";
-import "./leaflet-control-legend";
-import "./leaflet-control-search";
-import * as mapStyles from "./map-style.json";
+import "./controls/legend/index";
+import * as mapStyles from "./config/map-style.json";
+import * as excludeLegendProperties from "./config/exclude-legend-properties.json";
+import * as excludePopupProperties from "./config/exclude-popup-properties.json";
 
-const excludeShowingProperties = ["path", "ADR_NO"];
-const excludeLegendProperties = [
-  "path",
-  "PRTY_NMBR",
-  "ADR_NO",
-  "ADR_NO_SFX",
-  "Address",
-  "Developmen",
-  "GR 2015 va",
-  "GR2018",
-  "ALT_NAME",
-  "Handles",
-  "Imagery",
-  "Inner City",
-  "Mapped Onl",
-  "Name",
-  "OBJECTID",
-  "OFC_SBRB_N",
-  "SHAPESTAre",
-  "SHAPESTLen",
-  "Status Ref",
-  "STR_NAME",
-  "SUB_CNCL_N",
-  "Summary ta",
-  "Zoning_1",
-];
 const urlSearch = new URLSearchParams(window.location.search);
 const legendParcelProperty = urlSearch.get("property") || "Owner";
 const legendParcelPropertyBucket =
@@ -134,7 +109,7 @@ const LandMap = async function () {
     propertyKeys.forEach((key) => {
       if (
         properties[key] !== "" &&
-        excludeShowingProperties.indexOf(key) === -1
+        excludePopupProperties.indexOf(key) === -1
       ) {
         contentString += `<tr><td class="parcel-popup-property-key">${key}:</td> <td class="parcel-popup-property-value">${properties[key]}</td></tr>`;
       }
@@ -189,8 +164,6 @@ const LandMap = async function () {
       map.fitBounds(layers.getBounds(), { animate: true });
     } catch (e) {}
   });
-
-  //L.control.search().addTo(map);
 
   map.fitBounds(layers.getBounds(), { animate: true });
 };

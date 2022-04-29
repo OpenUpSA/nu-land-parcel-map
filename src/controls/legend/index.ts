@@ -1,5 +1,5 @@
 import L from "leaflet";
-import "./leaflet-control-legend.scss";
+import "./main.scss";
 import { orderBy } from "natural-orderby";
 
 L.Control.Legend = L.Control.extend({
