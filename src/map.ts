@@ -4,7 +4,7 @@ import "leaflet-fullscreen/dist/leaflet.fullscreen.css";
 import L from "leaflet";
 import "leaflet.gridlayer.googlemutant";
 import "leaflet-fullscreen";
-import * as geojson from "./data/complete.json";
+import geojson from "./data/complete.json";
 import { roundNearest, hlsGen, cyrb53 } from "./utils";
 import { orderBy } from "natural-orderby";
 import "./controls/legend/index";
