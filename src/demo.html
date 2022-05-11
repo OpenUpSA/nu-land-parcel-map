@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>NU Land Parcel Map</title>
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <style>
+      html,
+      body {
+        box-sizing: border-box;
+        height: 100%;
+      }
+
+      .demo-iframe {
+        width: 100%;
+        height: 100%;
+      }
+
+      .is-height-100 {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="columns is-height-100 is-gapless">
+      <div class="column is-two-thirds is-height-100">
+        <iframe id="map" class="demo-iframe" src="index.html" name="map_iframe"></iframe>
+      </div>
+      <div class="column is-one-thirds">
+        <article class="px-5 pt-5">
+          <header class="pb-5">
+            <h1 class="title">
+              A tool for holding power to account and ensuring public land is
+              used for public good
+            </h1>
+          </header>
+          <p class="content">
+            <a href="./?property=Owner" target="map_iframe" class="button is-primary">Show by Owner</a>
+            <a href="./?property=Suburb" target="map_iframe" class="button is-info">Show by Suburb</a>
+          </p>
+          <p class="content">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Error
+            tenetur similique rerum natus amet eum accusamus nihil maxime.
+            Corrupti nemo ratione expedita vel doloremque deserunt quia deleniti
+            corporis voluptatibus voluptatum!
+          </p>
+          <p class="content">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Error
+            tenetur similique rerum natus amet eum accusamus nihil maxime.
+            Corrupti nemo ratione expedita vel doloremque deserunt quia deleniti
+            corporis voluptatibus voluptatum!
+          </p>
+          <p class="content">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Error
+            tenetur similique rerum natus amet eum accusamus nihil maxime.
+            Corrupti nemo ratione expedita vel doloremque deserunt quia deleniti
+            corporis voluptatibus voluptatum!
+          </p>
+        </article>
+      </div>
+    </div>
+  </body>
+</html>

@@ -7,8 +7,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "dev": "yarn parcel src/index.html",
-    "build": "rm -r dist && yarn parcel build src/index.html",
+    "dev": "yarn parcel src/index.html src/demo.html",
+    "build": "rm -r dist && yarn parcel build src/index.html src/demo.html",
     "deploy": "yarn build && netlify deploy -d dist"
   },
   "devDependencies": {
