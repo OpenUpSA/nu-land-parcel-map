@@ -12,52 +12,52 @@ import * as mapStyles from "./config/map-style.json";
 import * as excludeLegendProperties from "./config/exclude-legend-properties.json";
 import * as excludePopupProperties from "./config/exclude-popup-properties.json";
 import "leaflet-google-places-autocomplete";
-import "./controls/google-places-autocomplete/override.scss"
-import {gPlaceAutocompleteConfig} from "./controls/google-places-autocomplete/index.ts";
-
-const urlSearch = new URLSearchParams(window.location.search);
-const legendParcelProperty = urlSearch.get("property") || "Owner";
-const legendParcelPropertyBucket =
-  urlSearch.get("propertyBucket") === "true" || false;
-const legendParcelPropertyBucketValue =
-  urlSearch.get("propertyBucketValue") || 15000;
-const legendParcelPropertyBlankValue =
-  urlSearch.get("propertyBlankValue") || "NONE";
-let legendParcelItems = {};
-
-geojson["features"].forEach((parcel) => {
-  let parcelPropertyValue = parcel["properties"][legendParcelProperty]
-    .trim()
-    .replace(/[\?\(\)]/g, "");
-
-  if (parcelPropertyValue === "") {
-    parcelPropertyValue = legendParcelPropertyBlankValue;
-  }
-
-  if (legendParcelPropertyBucket) {
-    parcelPropertyValue = roundNearest(
-      parcelPropertyValue,
-      legendParcelPropertyBucketValue
-    );
-  }
-
-  parcel["properties"][legendParcelProperty] = parcelPropertyValue;
-  const stringSeed = legendParcelPropertyBucket
-    ? ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"][
-        parseInt(parcelPropertyValue.toString()[0])
-      ]
-    : "";
-  const hashcode = cyrb53(stringSeed + parcelPropertyValue);
-  const color = hlsGen(hashcode);
-
-  if (legendParcelItems[parcelPropertyValue]) {
-    legendParcelItems[parcelPropertyValue]["count"]++;
-  } else {
-    legendParcelItems[parcelPropertyValue] = { color: color, count: 1 };
-  }
-});
+import "./controls/google-places-autocomplete/override.scss";
+import { gPlaceAutocompleteConfig } from "./controls/google-places-autocomplete/index.ts";
 
 const LandMap = async function () {
+  const urlSearch = new URLSearchParams(window.location.search);
+  const legendParcelProperty = urlSearch.get("property") || "Owner";
+  const legendParcelPropertyBucket =
+    urlSearch.get("propertyBucket") === "true" || false;
+  const legendParcelPropertyBucketValue =
+    urlSearch.get("propertyBucketValue") || 15000;
+  const legendParcelPropertyBlankValue =
+    urlSearch.get("propertyBlankValue") || "NONE";
+  let legendParcelItems = {};
+
+  geojson["features"].forEach((parcel) => {
+    let parcelPropertyValue = parcel["properties"][legendParcelProperty]
+      .trim()
+      .replace(/[\?\(\)]/g, "");
+
+    if (parcelPropertyValue === "") {
+      parcelPropertyValue = legendParcelPropertyBlankValue;
+    }
+
+    if (legendParcelPropertyBucket) {
+      parcelPropertyValue = roundNearest(
+        parcelPropertyValue,
+        legendParcelPropertyBucketValue
+      );
+    }
+
+    parcel["properties"][legendParcelProperty] = parcelPropertyValue;
+    const stringSeed = legendParcelPropertyBucket
+      ? ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"][
+          parseInt(parcelPropertyValue.toString()[0])
+        ]
+      : "";
+    const hashcode = cyrb53(stringSeed + parcelPropertyValue);
+    const color = hlsGen(hashcode);
+
+    if (legendParcelItems[parcelPropertyValue]) {
+      legendParcelItems[parcelPropertyValue]["count"]++;
+    } else {
+      legendParcelItems[parcelPropertyValue] = { color: color, count: 1 };
+    }
+  });
+
   const map = new L.Map("map", {
     zoomControl: false,
     attributionControl: false,
