@@ -10,6 +10,14 @@
   </head>
   <body>
     <div id="map" class="map"></div>
-    <script src="app.ts" type="module"></script>
+    <script type="module">
+      import LandMap from "./map";
+
+      const loadMap = function () {
+        LandMap();
+      };
+
+      loadMap();
+    </script>
   </body>
 </html>
