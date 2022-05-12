@@ -16,6 +16,7 @@ import { gPlaceAutocompleteConfig } from "./controls/google-places-autocomplete/
 
 const LandMap = async function (
   geojson: any,
+  mapElementId: string = "map",
   legendParcelProperty: string,
   legendParcelPropertyBucket: boolean = false,
   legendParcelPropertyBucketValue: number = 100,
@@ -55,7 +56,7 @@ const LandMap = async function (
     }
   });
 
-  const map = new L.Map("map", {
+  const map = new L.Map(mapElementId, {
     zoomControl: false,
     attributionControl: false,
   });
