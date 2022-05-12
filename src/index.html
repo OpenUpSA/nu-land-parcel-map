@@ -12,12 +12,24 @@
     <div id="map" class="map"></div>
     <script type="module">
       import LandMap from "./map";
+      import geojson from "./data/complete.json";
 
-      const loadMap = function () {
-        LandMap();
-      };
+      const urlSearch = new URLSearchParams(window.location.search);
+      const legendParcelProperty = urlSearch.get("property") || "Owner";
+      const legendParcelPropertyBucket =
+        urlSearch.get("propertyBucket") === "true" || false;
+      const legendParcelPropertyBucketValue =
+        urlSearch.get("propertyBucketValue") || 15000;
+      const legendParcelPropertyBlankValue =
+        urlSearch.get("propertyBlankValue") || "NONE";
 
-      loadMap();
+      LandMap(
+        geojson,
+        legendParcelProperty,
+        legendParcelPropertyBucket,
+        legendParcelPropertyBucketValue,
+        legendParcelPropertyBlankValue
+      );
     </script>
   </body>
 </html>

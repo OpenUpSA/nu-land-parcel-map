@@ -4,7 +4,6 @@ import "leaflet-fullscreen/dist/leaflet.fullscreen.css";
 import L from "leaflet";
 import "leaflet.gridlayer.googlemutant";
 import "leaflet-fullscreen";
-import geojson from "./data/complete.json";
 import { roundNearest, hlsGen, cyrb53 } from "./utils";
 import { orderBy } from "natural-orderby";
 import "./controls/legend/index";
@@ -13,17 +12,15 @@ import * as excludeLegendProperties from "./config/exclude-legend-properties.jso
 import * as excludePopupProperties from "./config/exclude-popup-properties.json";
 import "leaflet-google-places-autocomplete";
 import "./controls/google-places-autocomplete/override.scss";
-import { gPlaceAutocompleteConfig } from "./controls/google-places-autocomplete/index.ts";
+import { gPlaceAutocompleteConfig } from "./controls/google-places-autocomplete/index";
 
-const LandMap = async function () {
-  const urlSearch = new URLSearchParams(window.location.search);
-  const legendParcelProperty = urlSearch.get("property") || "Owner";
-  const legendParcelPropertyBucket =
-    urlSearch.get("propertyBucket") === "true" || false;
-  const legendParcelPropertyBucketValue =
-    urlSearch.get("propertyBucketValue") || 15000;
-  const legendParcelPropertyBlankValue =
-    urlSearch.get("propertyBlankValue") || "NONE";
+const LandMap = async function (
+  geojson: any,
+  legendParcelProperty: string,
+  legendParcelPropertyBucket: boolean = false,
+  legendParcelPropertyBucketValue: number = 100,
+  legendParcelPropertyBlankValue: string = "NONE"
+) {
   let legendParcelItems = {};
 
   geojson["features"].forEach((parcel) => {
