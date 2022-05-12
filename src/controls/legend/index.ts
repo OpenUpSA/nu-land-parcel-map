@@ -14,15 +14,16 @@ L.Control.Legend = L.Control.extend({
   updateMap: function (map) {
     this.fire("updatemap", {
       checked: Array.from(
-        document.querySelectorAll(
+        map._container.querySelectorAll(
           "input[type=checkbox].leaflet-control-legend-list-item-input:checked"
         ),
-        (e) => e.value
+        (e:HTMLInputElement) => e.value
       ),
     });
   },
 
   onAdd: function (map) {
+    console.log(map._container);
     const legendItemKeys = orderBy(Object.keys(this.options.legendItems));
     const container = L.DomUtil.create("div", "leaflet-control-legend");
     L.DomEvent.disableClickPropagation(container);
@@ -56,7 +57,7 @@ L.Control.Legend = L.Control.extend({
     headerTogggleCheckbox.checked = true;
 
     headerTogggleCheckbox.addEventListener("change", () => {
-      document
+      map._container
         .querySelectorAll(
           "input[type=checkbox].leaflet-control-legend-list-item-input"
         )
