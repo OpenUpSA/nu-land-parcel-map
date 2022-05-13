@@ -17,12 +17,33 @@ import { gPlaceAutocompleteConfig } from "./controls/google-places-autocomplete/
 const LandMap = async function (
   geojson: any,
   mapElementId: string = "map",
-  legendParcelProperty: string,
-  legendParcelPropertyBucket: boolean = false,
-  legendParcelPropertyBucketValue: number = 100,
-  legendParcelPropertyBlankValue: string = "NONE"
+  config: object
 ) {
+  const showControls: boolean =
+    "showControls" in config ? config["showControls"] : true;
+  const legendParcelProperty: string = config["legendParcelProperty"];
+  const legendParcelPropertyBucket: boolean =
+    config["legendParcelPropertyBucket"] || false;
+  const legendParcelPropertyBucketValue: number =
+    config["legendParcelPropertyBucketValue"] || 100;
+  const legendParcelPropertyBlankValue: string =
+    config["legendParcelPropertyBlankValue"] || "NONE";
+
+  const map = new L.Map(mapElementId, {
+    zoomControl: false,
+    attributionControl: false,
+  });
+
+  L.gridLayer
+    .googleMutant({
+      type: "roadmap",
+      styles: mapStyles,
+    })
+    .addTo(map);
+
   let legendParcelItems = {};
+  let legendProperties = [];
+  let layers = [];
 
   geojson["features"].forEach((parcel) => {
     let parcelPropertyValue = parcel["properties"][legendParcelProperty]
@@ -56,27 +77,7 @@ const LandMap = async function (
     }
   });
 
-  const map = new L.Map(mapElementId, {
-    zoomControl: false,
-    attributionControl: false,
-  });
-
-  L.control.zoom({ position: "bottomright" }).addTo(map);
-
-  map.addControl(
-    new L.Control.Fullscreen({
-      position: "bottomright",
-    })
-  );
-
-  L.gridLayer
-    .googleMutant({
-      type: "roadmap",
-      styles: mapStyles,
-    })
-    .addTo(map);
-
-  const layers = L.geoJSON(geojson, {
+  layers = L.geoJSON(geojson, {
     style: {
       color: "#fc0",
       fillOpacity: 0.5,
@@ -84,8 +85,6 @@ const LandMap = async function (
       weight: 1,
     },
   }).addTo(map);
-
-  let legendProperties = [];
 
   layers.getLayers().forEach((layer) => {
     const color =
@@ -133,40 +132,50 @@ const LandMap = async function (
     });
   });
 
-  let legendControl = L.control
-    .legend({
-      legendItemsChecked: ["CCT"],
-      legendItems: legendParcelItems,
-      legendProperty: legendParcelProperty,
-      legendProperties: legendProperties,
-      layers: layers,
-    })
-    .addTo(map);
+  if (showControls) {
+    L.control.zoom({ position: "bottomright" }).addTo(map);
 
-  let hiddenLayers = [];
+    map.addControl(
+      new L.Control.Fullscreen({
+        position: "bottomright",
+      })
+    );
 
-  legendControl.on("updatemap", (e) => {
-    const checked = e.checked;
+    let legendControl = L.control
+      .legend({
+        legendItemsChecked: ["CCT"],
+        legendItems: legendParcelItems,
+        legendProperty: legendParcelProperty,
+        legendProperties: legendProperties,
+        layers: layers,
+      })
+      .addTo(map);
 
-    layers.getLayers().forEach((layer) => {
-      if (!checked.includes(layer.feature.properties[legendParcelProperty])) {
-        hiddenLayers.push(layer);
-        layers.removeLayer(layer);
-      }
+    let hiddenLayers = [];
+
+    legendControl.on("updatemap", (e) => {
+      const checked = e.checked;
+
+      layers.getLayers().forEach((layer) => {
+        if (!checked.includes(layer.feature.properties[legendParcelProperty])) {
+          hiddenLayers.push(layer);
+          layers.removeLayer(layer);
+        }
+      });
+
+      hiddenLayers.forEach((layer) => {
+        if (checked.includes(layer.feature.properties[legendParcelProperty])) {
+          layers.addLayer(layer);
+        }
+      });
+
+      try {
+        map.fitBounds(layers.getBounds(), { animate: true });
+      } catch (e) {}
     });
 
-    hiddenLayers.forEach((layer) => {
-      if (checked.includes(layer.feature.properties[legendParcelProperty])) {
-        layers.addLayer(layer);
-      }
-    });
-
-    try {
-      map.fitBounds(layers.getBounds(), { animate: true });
-    } catch (e) {}
-  });
-
-  new L.Control.GPlaceAutocomplete(gPlaceAutocompleteConfig(map)).addTo(map);
+    new L.Control.GPlaceAutocomplete(gPlaceAutocompleteConfig(map)).addTo(map);
+  }
 
   map.fitBounds(layers.getBounds(), { animate: true });
 };

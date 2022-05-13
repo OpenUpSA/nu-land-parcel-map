@@ -23,14 +23,12 @@
       const legendParcelPropertyBlankValue =
         urlSearch.get("propertyBlankValue") || "NONE";
 
-      LandMap(
-        geojson,
-        "map",
-        legendParcelProperty,
-        legendParcelPropertyBucket,
-        legendParcelPropertyBucketValue,
-        legendParcelPropertyBlankValue
-      );
+      LandMap(geojson, "map", {
+        legendParcelProperty: legendParcelProperty,
+        legendParcelPropertyBucket: legendParcelPropertyBucket,
+        legendParcelPropertyBucketValue: legendParcelPropertyBucketValue,
+        legendParcelPropertyBlankValue: legendParcelPropertyBlankValue,
+      });
     </script>
   </body>
 </html>
