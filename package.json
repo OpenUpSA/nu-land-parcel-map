@@ -28,5 +28,19 @@
     "leaflet-google-places-autocomplete": "^0.0.9",
     "leaflet.gridlayer.googlemutant": "^0.13.5",
     "natural-orderby": "^2.0.3"
+  },
+  "targets": {
+    "demo": {
+      "source": [
+        "./src/index.html",
+        "./src/demo-iframe.html",
+        "./src/demo-multi-map.html"
+      ],
+      "distDir": "./dist/demo/"
+    },
+    "library": {
+      "source": "./src/map.ts",
+      "distDir": "./dist/library/"
+    }
   }
 }

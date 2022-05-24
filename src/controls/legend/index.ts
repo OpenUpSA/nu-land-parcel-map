@@ -9,6 +9,7 @@ L.Control.Legend = L.Control.extend({
     legendItemsChecked: [],
     legendProperty: "",
     legendProperties: [],
+    propertyLabels: {},
   },
 
   updateMap: function (map) {
@@ -17,13 +18,12 @@ L.Control.Legend = L.Control.extend({
         map._container.querySelectorAll(
           "input[type=checkbox].leaflet-control-legend-list-item-input:checked"
         ),
-        (e:HTMLInputElement) => e.value
+        (e: HTMLInputElement) => e.value
       ),
     });
   },
 
   onAdd: function (map) {
-    console.log(map._container);
     const legendItemKeys = orderBy(Object.keys(this.options.legendItems));
     const container = L.DomUtil.create("div", "leaflet-control-legend");
     L.DomEvent.disableClickPropagation(container);
@@ -85,7 +85,7 @@ L.Control.Legend = L.Control.extend({
         "leaflet-control-legend-header-select-option",
         headerSelect
       );
-      option.innerText = property;
+      option.innerText = this.options.propertyLabels[property] || property;
       option.value = property;
       if (property == this.options.legendProperty) {
         option.selected = true;

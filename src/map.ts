@@ -28,6 +28,7 @@ const LandMap = async function (
     config["legendParcelPropertyBucketValue"] || 100;
   const legendParcelPropertyBlankValue: string =
     config["legendParcelPropertyBlankValue"] || "NONE";
+  const propertyLabels: any = config["propertyLabels"] || [];
 
   const map = new L.Map(mapElementId, {
     zoomControl: false,
@@ -43,7 +44,7 @@ const LandMap = async function (
 
   let legendParcelItems = {};
   let legendProperties = [];
-  let layers = [];
+  //let layers = [];
 
   geojson["features"].forEach((parcel) => {
     let parcelPropertyValue = parcel["properties"][legendParcelProperty]
@@ -74,6 +75,26 @@ const LandMap = async function (
       legendParcelItems[parcelPropertyValue]["count"]++;
     } else {
       legendParcelItems[parcelPropertyValue] = { color: color, count: 1 };
+    }
+  });
+
+  let layers = new L.FeatureGroup();
+
+  geojson.features.forEach((parcel) => {
+    // Change type from LineString to Polygon
+
+    const geo = parcel.geometry;
+    const coords = geo.coordinates;
+    const first = coords[0];
+    const last = coords[coords.length - 1];
+
+    if (
+      geo.type === "LineString" &&
+      first[0] === last[0] &&
+      first[1] === last[1]
+    ) {
+      parcel.geometry.type = "Polygon";
+      parcel.geometry.coordinates = [parcel.geometry.coordinates];
     }
   });
 
@@ -111,7 +132,8 @@ const LandMap = async function (
         properties[key] !== "" &&
         excludePopupProperties.indexOf(key) === -1
       ) {
-        contentString += `<tr><td class="parcel-popup-property-key">${key}:</td> <td class="parcel-popup-property-value">${properties[key]}</td></tr>`;
+        const propertyLabel = propertyLabels[key] || key;
+        contentString += `<tr><td class="parcel-popup-property-key">${propertyLabel}:</td> <td class="parcel-popup-property-value">${properties[key]}</td></tr>`;
       }
     });
     contentString += "</table>";
@@ -147,7 +169,7 @@ const LandMap = async function (
         legendItems: legendParcelItems,
         legendProperty: legendParcelProperty,
         legendProperties: legendProperties,
-        layers: layers,
+        propertyLabels: propertyLabels
       })
       .addTo(map);
 
