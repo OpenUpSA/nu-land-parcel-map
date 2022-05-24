@@ -2,6 +2,7 @@
   background-color: white;
   box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.65);
   font-size: 14px;
+  max-width: 40em;
 
   .leaflet-control-legend-header {
     .leaflet-control-legend-header-text {
@@ -75,6 +76,7 @@
         text-overflow: ellipsis;
         float: left;
         display: block;
+        max-width: 80%;
       }
 
       .leaflet-control-legend-list-item-count {
