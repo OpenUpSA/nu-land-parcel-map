@@ -54,7 +54,9 @@ L.Control.Legend = L.Control.extend({
     );
 
     headerTogggleCheckbox.type = "checkbox";
-    headerTogggleCheckbox.checked = true;
+    if (this.options.legendItemsChecked.length === 0) {
+      headerTogggleCheckbox.checked = true;
+    }
 
     headerTogggleCheckbox.addEventListener("change", () => {
       map._container
@@ -152,8 +154,13 @@ L.Control.Legend = L.Control.extend({
       );
 
       listItemCheckbox.type = "checkbox";
-      listItemCheckbox.checked = true;
       listItemCheckbox.value = key;
+      if (
+        this.options.legendItemsChecked.length === 0 ||
+        this.options.legendItemsChecked.includes(key)
+      ) {
+        listItemCheckbox.checked = true;
+      }
 
       let listItemText = L.DomUtil.create(
         "span",

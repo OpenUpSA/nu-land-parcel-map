@@ -29,6 +29,7 @@ const LandMap = async function (
   const legendParcelPropertyBlankValue: string =
     config["legendParcelPropertyBlankValue"] || "NONE";
   const propertyLabels: any = config["propertyLabels"] || [];
+  const legendItemsChecked: any = config["legendItemsChecked"] || [];
 
   const map = new L.Map(mapElementId, {
     zoomControl: false,
@@ -165,11 +166,11 @@ const LandMap = async function (
 
     let legendControl = L.control
       .legend({
-        legendItemsChecked: ["CCT"],
+        legendItemsChecked: legendItemsChecked,
         legendItems: legendParcelItems,
         legendProperty: legendParcelProperty,
         legendProperties: legendProperties,
-        propertyLabels: propertyLabels
+        propertyLabels: propertyLabels,
       })
       .addTo(map);
 
@@ -197,7 +198,9 @@ const LandMap = async function (
     });
 
     new L.Control.GPlaceAutocomplete(gPlaceAutocompleteConfig(map)).addTo(map);
+    legendControl.updateMap(map);
   }
+
 
   map.fitBounds(layers.getBounds(), { animate: true });
 };

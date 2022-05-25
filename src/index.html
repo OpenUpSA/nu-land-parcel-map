@@ -22,6 +22,8 @@
         urlSearch.get("propertyBucketValue") || 15000;
       const legendParcelPropertyBlankValue =
         urlSearch.get("propertyBlankValue") || "NONE";
+      const legendItemsChecked =
+        urlSearch.get("legendItemsChecked[]")?.split(",") || [];
       const propertyLabels = {
         OBJECTID: "Object ID",
         OFC_SBRB_N: "Official suburb",
@@ -63,7 +65,7 @@
         OWNER_TYPE: "Owner type",
         COMMIT_BY: "Commited by",
         COMMIT_ON: "Commited on",
-        BRK_PROM: "Broken promise",
+        BRK_PROM: "Broken promises",
       };
 
       LandMap(geojson, "map", {
@@ -72,6 +74,7 @@
         legendParcelPropertyBucketValue: legendParcelPropertyBucketValue,
         legendParcelPropertyBlankValue: legendParcelPropertyBlankValue,
         propertyLabels: propertyLabels,
+        legendItemsChecked: legendItemsChecked,
       });
     </script>
   </body>
