@@ -15,7 +15,7 @@
       import geojson from "./data/complete.json";
 
       const urlSearch = new URLSearchParams(window.location.search);
-      const legendParcelProperty = urlSearch.get("property") || "Owner";
+      const legendParcelProperty = urlSearch.get("property") || "OWNER_TYPE";
       const legendParcelPropertyBucket =
         urlSearch.get("propertyBucket") === "true" || false;
       const legendParcelPropertyBucketValue =
