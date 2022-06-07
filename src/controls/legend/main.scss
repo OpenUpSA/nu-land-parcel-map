@@ -3,6 +3,7 @@
   box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.65);
   font-size: 14px;
   max-width: 40em;
+  min-width: 20em;
 
   .leaflet-control-legend-header {
     .leaflet-control-legend-header-text {
@@ -26,6 +27,26 @@
       background-repeat: no-repeat;
       background-position: center;
       background-size: 40%;
+      &:hover {
+        background-color: #eee;
+      }
+    }
+
+    .leaflet-control-legend-header-download {
+      display: block;
+      cursor: pointer;
+      float: right;
+      border: none;
+      background-color: transparent;
+      height: 40px;
+      width: 40px;
+      background-image: url(./images/download.webp);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 45%;
+      &:hover {
+        background-color: #eee;
+      }
     }
   }
 

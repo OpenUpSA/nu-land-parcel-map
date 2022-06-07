@@ -13,6 +13,7 @@ import * as excludePopupProperties from "./config/exclude-popup-properties.json"
 import "leaflet-google-places-autocomplete";
 import "./controls/google-places-autocomplete/override.scss";
 import { gPlaceAutocompleteConfig } from "./controls/google-places-autocomplete/index";
+import * as CSV from 'csv-string';
 
 const LandMap = async function (
   geojson: any,
@@ -30,6 +31,7 @@ const LandMap = async function (
     config["legendParcelPropertyBlankValue"] || "NONE";
   const propertyLabels: any = config["propertyLabels"] || [];
   const legendItemsChecked: any = config["legendItemsChecked"] || [];
+  let propertyKeys = [];
 
   const map = new L.Map(mapElementId, {
     zoomControl: false,
@@ -45,7 +47,6 @@ const LandMap = async function (
 
   let legendParcelItems = {};
   let legendProperties = [];
-  //let layers = [];
 
   geojson["features"].forEach((parcel) => {
     let parcelPropertyValue = parcel["properties"][legendParcelProperty]
@@ -121,7 +122,7 @@ const LandMap = async function (
     let popup = L.popup();
 
     const properties = layer.feature.properties;
-    const propertyKeys = orderBy(Object.keys(properties));
+    propertyKeys = orderBy(Object.keys(properties));
     legendProperties = propertyKeys.filter((key) => {
       return !excludeLegendProperties.includes(key);
     });
@@ -192,6 +193,15 @@ const LandMap = async function (
         }
       });
 
+      let csvArray = [];
+      csvArray.push(propertyKeys);
+
+      layers.getLayers().forEach((layer) => {
+        csvArray.push(layer.feature.properties);
+      });
+      
+      legendControl.updateDownloadData(CSV.stringify(csvArray));
+
       try {
         map.fitBounds(layers.getBounds(), { animate: true });
       } catch (e) {}
@@ -200,7 +210,6 @@ const LandMap = async function (
     new L.Control.GPlaceAutocomplete(gPlaceAutocompleteConfig(map)).addTo(map);
     legendControl.updateMap(map);
   }
-
 
   map.fitBounds(layers.getBounds(), { animate: true });
 };

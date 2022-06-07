@@ -15,7 +15,11 @@
     "@parcel/packager-raw-url": "2.4.1",
     "@parcel/transformer-sass": "2.4.1",
     "@parcel/transformer-webmanifest": "2.4.1",
+    "buffer": "^6.0.3",
+    "events": "^3.3.0",
     "parcel": "^2.4.1",
+    "process": "^0.11.10",
+    "stream-browserify": "^3.0.0",
     "typescript": "^4.6.3"
   },
   "dependencies": {
@@ -23,6 +27,7 @@
     "@types/leaflet": "^1.7.9",
     "@types/leaflet-fullscreen": "^1.0.6",
     "@types/leaflet.gridlayer.googlemutant": "^0.4.6",
+    "csv-string": "^4.1.0",
     "leaflet": "^1.8.0",
     "leaflet-fullscreen": "^1.0.2",
     "leaflet-google-places-autocomplete": "^0.0.9",

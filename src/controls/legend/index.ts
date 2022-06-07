@@ -23,6 +23,11 @@ L.Control.Legend = L.Control.extend({
     });
   },
 
+  updateDownloadData: function (data) {
+    const blob = new Blob([data], { type: "text/csv" });
+    this.headerDownload.href = window.URL.createObjectURL(blob);
+  },
+
   onAdd: function (map) {
     const legendItemKeys = orderBy(Object.keys(this.options.legendItems));
     const container = L.DomUtil.create("div", "leaflet-control-legend");
@@ -40,6 +45,15 @@ L.Control.Legend = L.Control.extend({
       "leaflet-control-legend-header-button",
       header
     );
+
+    this.headerDownload = L.DomUtil.create(
+      "a",
+      "leaflet-control-legend-header-download",
+      header
+    );
+
+    this.headerDownload.title = "Download CSV data";
+    this.headerDownload.download = "nu-land-map.csv";
 
     let headerToggleCheckboxWrappper = L.DomUtil.create(
       "span",
