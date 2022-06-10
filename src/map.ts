@@ -9,11 +9,11 @@ import { orderBy } from "natural-orderby";
 import "./controls/legend/index";
 import * as mapStyles from "./config/map-style.json";
 import * as excludeLegendProperties from "./config/exclude-legend-properties.json";
-import * as excludePopupProperties from "./config/exclude-popup-properties.json";
+import * as defaultPopupProperties from "./config/default-popup-properties.json";
 import "leaflet-google-places-autocomplete";
 import "./controls/google-places-autocomplete/override.scss";
 import { gPlaceAutocompleteConfig } from "./controls/google-places-autocomplete/index";
-import * as CSV from 'csv-string';
+import * as CSV from "csv-string";
 
 const LandMap = async function (
   geojson: any,
@@ -130,12 +130,12 @@ const LandMap = async function (
     contentString +=
       '<table class="parcel-popup-table" cellpadding="0" cellspacing="0">';
     propertyKeys.forEach((key) => {
-      if (
-        properties[key] !== "" &&
-        excludePopupProperties.indexOf(key) === -1
-      ) {
+      if (defaultPopupProperties.indexOf(key) !== -1) {
         const propertyLabel = propertyLabels[key] || key;
-        contentString += `<tr><td class="parcel-popup-property-key">${propertyLabel}:</td> <td class="parcel-popup-property-value">${properties[key]}</td></tr>`;
+        const propertyValue = properties[key]
+          .replace(/,(?=\S)/g, ", ")
+          .replaceAll(" : ", ": ");
+        contentString += `<tr><td class="parcel-popup-property-key">${propertyLabel}:</td> <td class="parcel-popup-property-value">${propertyValue}</td></tr>`;
       }
     });
     contentString += "</table>";
@@ -199,7 +199,7 @@ const LandMap = async function (
       layers.getLayers().forEach((layer) => {
         csvArray.push(layer.feature.properties);
       });
-      
+
       legendControl.updateDownloadData(CSV.stringify(csvArray));
 
       try {
