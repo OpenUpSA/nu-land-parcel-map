@@ -84,6 +84,8 @@
     <script type="module">
       import LandMap from "./map";
       import geojson from "./data/complete.json";
+      import * as conditionalPopupProperties from "./config/conditional-popup-properties.json";
+      import * as propertyLabels from "./config/property-labels.json";
 
       const urlSearch = new URLSearchParams(window.location.search);
       const legendParcelProperty = urlSearch.get("property") || "Owner";
@@ -100,6 +102,8 @@
         legendParcelPropertyBucket: legendParcelPropertyBucket,
         legendParcelPropertyBucketValue: legendParcelPropertyBucketValue,
         legendParcelPropertyBlankValue: legendParcelPropertyBlankValue,
+        conditionalPopupProperties: conditionalPopupProperties,
+        propertyLabels: propertyLabels
       });
 
       LandMap(geojson, "map2", {

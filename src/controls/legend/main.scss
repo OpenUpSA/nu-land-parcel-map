@@ -66,16 +66,21 @@
 
   .leaflet-control-legend-list-item-input-wrapper {
     display: inline-block;
-    padding: 5px 4px 2px 3px;
-    margin: 6px 5px 3px 8px;
+    padding: 5px;
+    margin: 9px 5px 5px 5px;
     float: left;
     background-color: #eee;
+
+    .leaflet-control-legend-list-item-input, .leaflet-control-legend-header-toggle {
+      cursor: pointer;
+      display: block;
+    }
   }
 
   .leaflet-control-legend-list {
     transition: all 0.3s ease-in-out;
     overflow-y: scroll;
-    height: 400px;
+    max-height: 300px;
     list-style-type: none;
     padding: 0;
     margin: 0;
