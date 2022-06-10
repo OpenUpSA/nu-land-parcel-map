@@ -38,11 +38,27 @@ const LandMap = async function (
     attributionControl: false,
   });
 
-  L.gridLayer
+  const roadMutant = L.gridLayer
     .googleMutant({
       type: "roadmap",
       styles: mapStyles,
     })
+    .addTo(map);
+
+  const satMutant = L.gridLayer.googleMutant({
+    maxZoom: 24,
+    type: "satellite",
+  });
+
+  L.control
+    .layers(
+      {
+        Roadmap: roadMutant,
+        Satellite: satMutant,
+      },
+      null,
+      { collapsed: false, position: 'bottomright' }
+    )
     .addTo(map);
 
   let legendParcelItems = {};
