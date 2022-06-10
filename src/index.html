@@ -13,6 +13,7 @@
     <script type="module">
       import LandMap from "./map";
       import geojson from "./data/complete.json";
+      import * as conditionalPopupProperties from "./config/conditional-popup-properties.json";
 
       const urlSearch = new URLSearchParams(window.location.search);
       const legendParcelProperty = urlSearch.get("property") || "OWNER_TYPE";
@@ -65,7 +66,7 @@
         OWNER_TYPE: "Owner type",
         COMMIT_BY: "Commited by",
         COMMIT_ON: "Commited on",
-        BRK_PROM: "Broken promises",
+        BRK_PROM: "Broken promise",
       };
 
       LandMap(geojson, "map", {
@@ -75,6 +76,7 @@
         legendParcelPropertyBlankValue: legendParcelPropertyBlankValue,
         propertyLabels: propertyLabels,
         legendItemsChecked: legendItemsChecked,
+        conditionalPopupProperties: conditionalPopupProperties
       });
     </script>
   </body>

@@ -31,6 +31,8 @@ const LandMap = async function (
     config["legendParcelPropertyBlankValue"] || "NONE";
   const propertyLabels: any = config["propertyLabels"] || [];
   const legendItemsChecked: any = config["legendItemsChecked"] || [];
+  const conditionalPopupProperties: any =
+    config["conditionalPopupProperties"] || [];
   let propertyKeys = [];
 
   const map = new L.Map(mapElementId, {
@@ -57,7 +59,7 @@ const LandMap = async function (
         Satellite: satMutant,
       },
       null,
-      { collapsed: false, position: 'bottomright' }
+      { collapsed: false, position: "bottomright" }
     )
     .addTo(map);
 
@@ -146,14 +148,32 @@ const LandMap = async function (
     contentString +=
       '<table class="parcel-popup-table" cellpadding="0" cellspacing="0">';
     propertyKeys.forEach((key) => {
-      if (defaultPopupProperties.indexOf(key) !== -1) {
+      if (defaultPopupProperties.indexOf(key) !== -1 && properties[key] != "") {
         const propertyLabel = propertyLabels[key] || key;
         const propertyValue = properties[key]
           .replace(/,(?=\S)/g, ", ")
           .replaceAll(" : ", ": ");
+        //TODO: Templatise
         contentString += `<tr><td class="parcel-popup-property-key">${propertyLabel}:</td> <td class="parcel-popup-property-value">${propertyValue}</td></tr>`;
       }
     });
+
+    conditionalPopupProperties.forEach((conditional) => {
+      if (
+        properties[conditional["condition"]["property"]] ===
+        conditional["condition"]["value"]
+      ) {
+        conditional["showProperties"].forEach((key) => {
+          const propertyLabel = propertyLabels[key] || key;
+          const propertyValue = properties[key]
+            .replace(/,(?=\S)/g, ", ")
+            .replaceAll(" : ", ": ");
+          //TODO: Templatise
+          contentString += `<tr><td class="parcel-popup-property-key">${propertyLabel}:</td> <td class="parcel-popup-property-value">${propertyValue}</td></tr>`;
+        });
+      }
+    });
+
     contentString += "</table>";
     contentString += "</div>";
     popup.setContent(contentString);

@@ -1,0 +1,9 @@
+[
+  {
+    "condition": {
+      "property": "BRK_PROM",
+      "value": "YES"
+    },
+    "showProperties": ["BRK_PROM", "COMMIT_ON", "COMMIT_BY"]
+  }
+]
