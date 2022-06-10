@@ -10,9 +10,6 @@ import "./controls/legend/index";
 import * as mapStyles from "./config/map-style.json";
 import * as excludeLegendProperties from "./config/exclude-legend-properties.json";
 import * as defaultPopupProperties from "./config/default-popup-properties.json";
-import "leaflet-google-places-autocomplete";
-import "./controls/google-places-autocomplete/override.scss";
-import { gPlaceAutocompleteConfig } from "./controls/google-places-autocomplete/index";
 import * as CSV from "csv-string";
 
 const LandMap = async function (
@@ -51,17 +48,6 @@ const LandMap = async function (
     maxZoom: 24,
     type: "satellite",
   });
-
-  L.control
-    .layers(
-      {
-        Roadmap: roadMutant,
-        Satellite: satMutant,
-      },
-      null,
-      { collapsed: false, position: "bottomright" }
-    )
-    .addTo(map);
 
   let legendParcelItems = {};
   let legendProperties = [];
@@ -102,7 +88,6 @@ const LandMap = async function (
 
   geojson.features.forEach((parcel) => {
     // Change type from LineString to Polygon
-
     const geo = parcel.geometry;
     const coords = geo.coordinates;
     const first = coords[0];
@@ -193,6 +178,17 @@ const LandMap = async function (
   });
 
   if (showControls) {
+    L.control
+      .layers(
+        {
+          Roadmap: roadMutant,
+          Satellite: satMutant,
+        },
+        null,
+        { collapsed: false, position: "topright" }
+      )
+      .addTo(map);
+
     L.control.zoom({ position: "bottomright" }).addTo(map);
 
     map.addControl(
@@ -243,7 +239,6 @@ const LandMap = async function (
       } catch (e) {}
     });
 
-    new L.Control.GPlaceAutocomplete(gPlaceAutocompleteConfig(map)).addTo(map);
     legendControl.updateMap(map);
   }
 
