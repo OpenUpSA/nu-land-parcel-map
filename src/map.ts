@@ -53,9 +53,14 @@ const LandMap = async function (
   let legendProperties = [];
 
   geojson["features"].forEach((parcel) => {
-    let parcelPropertyValue = parcel["properties"][legendParcelProperty]
-      .trim()
-      .replace(/[\?\(\)]/g, "");
+    let parcelPropertyValue = "";
+    try {
+      parcelPropertyValue = parcel["properties"][legendParcelProperty]
+        .trim()
+        .replace(/[\?\(\)]/g, "");
+    } catch (e) {
+      console.log(e);
+    }
 
     if (parcelPropertyValue === "") {
       parcelPropertyValue = legendParcelPropertyBlankValue;
