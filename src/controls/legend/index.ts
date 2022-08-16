@@ -28,6 +28,10 @@ L.Control.Legend = L.Control.extend({
     this.headerDownload.href = window.URL.createObjectURL(blob);
   },
 
+  updateTableView: function (data) {
+    this.headerTableView.href = "table-view.html?OBJECTID[]=" + encodeURIComponent(data);
+  },
+
   onAdd: function (map) {
     const legendItemKeys = orderBy(Object.keys(this.options.legendItems));
     const container = L.DomUtil.create("div", "leaflet-control-legend");
@@ -45,6 +49,16 @@ L.Control.Legend = L.Control.extend({
       "leaflet-control-legend-header-button",
       header
     );
+
+    this.headerTableView = L.DomUtil.create(
+      "a",
+      "leaflet-control-legend-header-table-view",
+      header
+    );
+
+    //this.headerTableView.href = "/table-view.html"; //?legendProperty=' + this.options.legendProperty;
+    this.headerTableView.target = "_blank";
+    this.headerTableView.title = "View data in table";
 
     this.headerDownload = L.DomUtil.create(
       "a",
