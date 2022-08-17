@@ -28,8 +28,12 @@ L.Control.Legend = L.Control.extend({
     this.headerDownload.href = window.URL.createObjectURL(blob);
   },
 
-  updateTableView: function (data) {
-    this.headerTableView.href = "table-view.html?OBJECTID[]=" + data;
+  updateTableView: function (property: string, checked: string[]) {
+    this.headerTableView.href =
+      "table-view.html?property=" +
+      property +
+      "&selected=" +
+      encodeURIComponent(checked.join(","));
   },
 
   onAdd: function (map) {

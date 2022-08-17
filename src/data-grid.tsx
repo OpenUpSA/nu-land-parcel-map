@@ -3,7 +3,12 @@ import { DataGridPro, GridColDef } from "@mui/x-data-grid-pro";
 import geojson from "./data/complete.json";
 
 const urlSearch: URLSearchParams = new URLSearchParams(window.location.search);
-const objectIds: string[] = (urlSearch.get("OBJECTID[]") || "").split(",");
+const filterProperty: string = urlSearch.get("property") || "";
+const selected: string[] = (urlSearch.get("selected") || "")
+  .split(",")
+  .map((s) => {
+    return s === "NONE" ? "" : s;
+  });
 
 //#TODO: Use config not hard-coded
 const columns: GridColDef[] = [
@@ -18,12 +23,12 @@ const columns: GridColDef[] = [
 ];
 
 const rows: string[] = geojson["features"]
-  .map((feature) => {
-    return objectIds.includes(feature["properties"]["OBJECTID"].toString())
-      ? feature["properties"]
-      : null;
+  .filter((feature) => {
+    return selected.includes(
+      feature["properties"][filterProperty].trim().replace(/[\?\(\)]/g, "")
+    );
   })
-  .filter((n) => n);
+  .map((r) => r["properties"]);
 
 export function DataTable() {
   return (
