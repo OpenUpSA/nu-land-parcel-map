@@ -238,6 +238,8 @@ const LandMap = async function (
       });
 
       legendControl.updateDownloadData(CSV.stringify(csvArray));
+      console.log({ legendParcelProperty });
+      console.log({ checked });
       legendControl.updateTableView(legendParcelProperty, checked);
 
       try {

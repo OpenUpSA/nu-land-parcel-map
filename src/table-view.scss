@@ -1,0 +1,20 @@
+.cell-index {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+  text-align: center !important;
+  div {
+    color: gray;
+    width: 100% !important;
+    font-size: smaller !important;
+  }
+}
+
+.header-index {
+  color: gray;
+  background-color: rgba(0, 0, 0, 0.1) !important;
+  text-align: center !important;
+  font-size: smaller !important;
+}
+
+.MuiDataGrid-cell:focus {
+  outline: none !important;
+}

@@ -29,11 +29,13 @@ L.Control.Legend = L.Control.extend({
   },
 
   updateTableView: function (property: string, checked: string[]) {
-    this.headerTableView.href =
-      "table-view.html?property=" +
-      property +
-      "&selected=" +
-      encodeURIComponent(checked.join(","));
+    if (checked) {
+      this.headerTableView.href =
+        "table-view.html?property=" +
+        property +
+        "&selected=" +
+        encodeURIComponent(checked.join(","));
+    }
   },
 
   onAdd: function (map) {
