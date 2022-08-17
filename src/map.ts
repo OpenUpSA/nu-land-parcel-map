@@ -238,7 +238,7 @@ const LandMap = async function (
       });
 
       legendControl.updateDownloadData(CSV.stringify(csvArray));
-      legendControl.updateTableView(csvArray.map(r => r['OBJECTID']).filter(n => n));
+      legendControl.updateTableView(legendParcelProperty, checked);
 
       try {
         map.fitBounds(layers.getBounds(), { animate: true });
