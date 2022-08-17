@@ -1,10 +1,17 @@
 import * as React from "react";
 import { LicenseInfo } from "@mui/x-license-pro";
 import "./table-view.scss";
-import { DataGridPro, GridColDef } from "@mui/x-data-grid-pro";
+import {
+  DataGridPro,
+  GridColDef,
+  GridFooter,
+  GridFooterContainer,
+} from "@mui/x-data-grid-pro";
 import geojson from "./data/complete.json";
+import { Button } from "@mui/material";
+import * as CSV from "csv-string";
 
-LicenseInfo.setLicenseKey(process.env.MUIXPRO_LICENSE_KEY);
+LicenseInfo.setLicenseKey(process.env.MUIXPRO_LICENSE_KEY || "");
 
 const urlSearch: URLSearchParams = new URLSearchParams(window.location.search);
 const filterProperty: string = urlSearch.get("property") || "";
@@ -54,6 +61,38 @@ const rows: string[] = geojson["features"]
   })
   .map((r) => r["properties"]);
 
+const onDownload = () => {
+  let csvArray = [];
+  csvArray.push(Object.keys(rows[0]));
+
+  rows.forEach((row) => {
+    csvArray.push(Object.values(row));
+  });
+
+  const csv = CSV.stringify(csvArray);
+  const blob = new Blob([csv], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "nu-land-map.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
+const CustomFooter = () => {
+  return (
+    <GridFooterContainer>
+      {/* Add what you want here */}
+      <Button onClick={onDownload}>Download as CSV</Button>
+      <GridFooter
+        sx={{
+          border: "none", // To delete double border.
+        }}
+      />
+    </GridFooterContainer>
+  );
+};
+
 export function DataTable() {
   return (
     <div style={{ height: "100vh", width: "100%" }}>
@@ -65,6 +104,7 @@ export function DataTable() {
         rowsPerPageOptions={[5000]}
         initialState={{ pinnedColumns: { left: ["index"] } }}
         disableSelectionOnClick
+        components={{ Footer: CustomFooter }}
       />
     </div>
   );
