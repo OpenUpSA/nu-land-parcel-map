@@ -29,7 +29,7 @@ L.Control.Legend = L.Control.extend({
   },
 
   updateTableView: function (data) {
-    this.headerTableView.href = "table-view.html?OBJECTID[]=" + encodeURIComponent(data);
+    this.headerTableView.href = "table-view.html?OBJECTID[]=" + data;
   },
 
   onAdd: function (map) {
