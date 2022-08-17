@@ -320,7 +320,7 @@
     prop-types "^15.8.1"
     reselect "^4.1.6"
 
-"@mui/x-license-pro@5.15.0":
+"@mui/x-license-pro@5.15.0", "@mui/x-license-pro@^5.15.0":
   version "5.15.0"
   resolved "https://registry.yarnpkg.com/@mui/x-license-pro/-/x-license-pro-5.15.0.tgz#aa9f426716707874a69085cc4e4e2e2c2b7e6daf"
   integrity sha512-fI7Czi1v91zJ3xc10w4fmm5s6hCQa+BrfCgFKreaBzPKsse7hA6zg1FvajN9kOZL1oRyR35/HePd1YSN+114yw==

@@ -1,7 +1,10 @@
 import * as React from "react";
+import { LicenseInfo } from "@mui/x-license-pro";
 import "./table-view.scss";
 import { DataGridPro, GridColDef } from "@mui/x-data-grid-pro";
 import geojson from "./data/complete.json";
+
+LicenseInfo.setLicenseKey(process.env.MUIXPRO_LICENSE_KEY);
 
 const urlSearch: URLSearchParams = new URLSearchParams(window.location.search);
 const filterProperty: string = urlSearch.get("property") || "";
