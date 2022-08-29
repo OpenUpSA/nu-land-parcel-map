@@ -55,9 +55,11 @@ const LandMap = async function (
   geojson["features"].forEach((parcel) => {
     let parcelPropertyValue = "";
     try {
-      parcelPropertyValue = parcel["properties"][legendParcelProperty]
-        .trim()
-        .replace(/[\?\(\)]/g, "");
+      if (parcel["properties"][legendParcelProperty]) {
+        parcelPropertyValue = parcel["properties"][legendParcelProperty]
+          .trim()
+          .replace(/[\?\(\)]/g, "");
+      }
     } catch (e) {
       console.log(e);
     }
@@ -138,7 +140,11 @@ const LandMap = async function (
     contentString +=
       '<table class="parcel-popup-table" cellpadding="0" cellspacing="0">';
     propertyKeys.forEach((key) => {
-      if (defaultPopupProperties.indexOf(key) !== -1 && properties[key] != "") {
+      if (
+        defaultPopupProperties.indexOf(key) !== -1 &&
+        properties[key] &&
+        properties[key] != ""
+      ) {
         const propertyLabel = propertyLabels[key] || key;
         const propertyValue = properties[key]
           .replace(/,(?=\S)/g, ", ")
