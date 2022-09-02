@@ -55,9 +55,13 @@ const columns: GridColDef[] = [
 
 const rows: string[] = geojson["features"]
   .filter((feature) => {
-    return selected.includes(
-      feature["properties"][filterProperty].trim().replace(/[\?\(\)]/g, "")
-    );
+    try {
+      return selected.includes(
+        feature["properties"][filterProperty].trim().replace(/[\?\(\)]/g, "")
+      );
+    } catch {
+      return "";
+    }
   })
   .map((r) => r["properties"]);
 
@@ -97,7 +101,7 @@ export function DataTable() {
   return (
     <div style={{ height: "100vh", width: "100%" }}>
       <DataGridPro
-        getRowId={(row: any) => row["OBJECTID"]}
+        getRowId={(row: any) => row["Name"] + row["PRTY_NMBR"]}
         rows={rows}
         columns={columns}
         pageSize={5000}
