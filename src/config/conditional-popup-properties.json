@@ -1,9 +1,15 @@
 [
   {
     "condition": {
-      "property": "BRK_PROM",
+      "property": "Commitment for affordable housing",
       "value": "YES"
     },
-    "showProperties": ["BRK_PROM", "COMMIT_ON", "COMMIT_BY"]
+    "showProperties": [
+      "Commitment for affordable housing",
+      "Committed on",
+      "Committed by",
+      "Commitment/ proposal",
+      "Where commitment was made"
+    ]
   }
 ]

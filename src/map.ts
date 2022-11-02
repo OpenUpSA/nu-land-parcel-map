@@ -136,7 +136,7 @@ const LandMap = async function (
     legendProperties = propertyKeys.filter((key) => {
       return !excludeLegendProperties.includes(key);
     });
-    let contentString = `<div class="parcel-popup-content"><div class="parcel-popup-header">${properties["STR_NAME"]}</div>`;
+    let contentString = `<div class="parcel-popup-content"><div class="parcel-popup-header">${properties["Street Name"]}</div>`;
     contentString +=
       '<table class="parcel-popup-table" cellpadding="0" cellspacing="0">';
     propertyKeys.forEach((key) => {

@@ -1,10 +1,11 @@
 [
-  "GR2018",
+  "Erf Number",
   "Name",
-  "SUBURB",
-  "OWNER_TYPE",
+  "Owner type",
   "Owner",
-  "PRTY_NMBR",
-  "Size m2",
-  "ZONING"
+  "Size m2 New",
+  "Suburb",
+  "Value at 2015 New",
+  "Value at 2018 New",
+  "Zoning"
 ]

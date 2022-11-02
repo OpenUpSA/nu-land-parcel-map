@@ -42,15 +42,15 @@ const columns: GridColDef[] = [
       return <div>{params.api.getRowIndex(params.id) + 1}</div>;
     },
   },
-  { field: "PRTY_NMBR", minWidth: 150, headerName: "Property number" },
+  { field: "Erf Number", minWidth: 150, headerName: "Erf Number" },
   { field: "Name", minWidth: 300, headerName: "Name" },
-  { field: "GR2018", minWidth: 250, headerName: "Value" },
-  { field: "OFC_SBRB_N", minWidth: 200, headerName: "Suburb" },
-  { field: "OWNER_TYPE", minWidth: 300, headerName: "Owner type" },
+  { field: "Value at 2015 New", minWidth: 250, headerName: "Value At 2015" },
+  { field: "Value at 2018 New", minWidth: 250, headerName: "Value At 2018" },
+  { field: "Suburb", minWidth: 200, headerName: "Suburb" },
+  { field: "Owner type", minWidth: 300, headerName: "Owner type" },
   { field: "Owner", minWidth: 300, headerName: "Owner" },
-  { field: "Size m2", minWidth: 200, headerName: "Size m2" },
-  { field: "ZONING", minWidth: 800, headerName: "Zoning" },
-  { field: "OBJECTID", maxWidth: 80, headerName: "ID" },
+  { field: "Size m2 New", minWidth: 200, headerName: "Size m2" },
+  { field: "Zoning", minWidth: 800, headerName: "Zoning" },
 ];
 
 const rows: string[] = geojson["features"]
@@ -101,7 +101,7 @@ export function DataTable() {
   return (
     <div style={{ height: "100vh", width: "100%" }}>
       <DataGridPro
-        getRowId={(row: any) => row["Name"] + row["PRTY_NMBR"]}
+        getRowId={(row: any) => row["Name"] + row["Erf Number"]}
         rows={rows}
         columns={columns}
         pageSize={5000}
