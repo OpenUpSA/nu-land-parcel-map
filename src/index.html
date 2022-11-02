@@ -22,7 +22,7 @@
       import * as propertyLabels from "./config/property-labels.json";
 
       const urlSearch = new URLSearchParams(window.location.search);
-      const legendParcelProperty = urlSearch.get("property") || "OWNER_TYPE";
+      const legendParcelProperty = urlSearch.get("property") || "Owner type";
       const showControls =
         urlSearch.get("showControls") === "false" ? false : true;
       const legendParcelPropertyBucket =
