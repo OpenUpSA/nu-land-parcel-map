@@ -173,7 +173,7 @@ const LandMap = async function (
     contentString += "</table>";
     contentString += "</div>";
     popup.setContent(contentString);
-    layer.bindPopup(popup);
+    layer.bindPopup(popup, { maxWidth: 500 });
     layer.on("mouseover", function (e) {
       e.target.setStyle({
         fillOpacity: 0.75,
