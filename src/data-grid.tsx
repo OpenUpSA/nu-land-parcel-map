@@ -42,14 +42,14 @@ const columns: GridColDef[] = [
       return <div>{params.api.getRowIndex(params.id) + 1}</div>;
     },
   },
-  { field: "Erf Number", minWidth: 150, headerName: "Erf Number" },
+  { field: "Erven Number", minWidth: 150, headerName: "Erven Number" },
   { field: "Name", minWidth: 300, headerName: "Name" },
   { field: "Value at 2015", minWidth: 250, headerName: "Value At 2015" },
   { field: "Value at 2018", minWidth: 250, headerName: "Value At 2018" },
   { field: "Suburb", minWidth: 200, headerName: "Suburb" },
   { field: "Owner type", minWidth: 300, headerName: "Owner type" },
   { field: "Owner", minWidth: 300, headerName: "Owner" },
-  { field: "Size m2 New", minWidth: 200, headerName: "Size m2" },
+  { field: "Size m2", minWidth: 200, headerName: "Size m2" },
   { field: "Zoning", minWidth: 800, headerName: "Zoning" },
 ];
 
@@ -101,7 +101,7 @@ export function DataTable() {
   return (
     <div style={{ height: "100vh", width: "100%" }}>
       <DataGridPro
-        getRowId={(row: any) => row["Name"] + row["Erf Number"]}
+        getRowId={(row: any) => row["Name"] + row["Erven Number"]}
         rows={rows}
         columns={columns}
         pageSize={5000}
