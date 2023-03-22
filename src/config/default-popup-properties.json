@@ -1,11 +1,11 @@
 [
-  "Erf Number",
-  "Name",
-  "Owner type",
-  "Owner",
-  "Size m2 New",
-  "Suburb",
-  "Value at 2015 New",
-  "Value at 2018 New",
-  "Zoning"
+    "Erf Number",
+    "Name",
+    "Owner type",
+    "Owner",
+    "Size m2 New",
+    "Suburb",
+    "Value at 2015",
+    "Value at 2018",
+    "Zoning"
 ]
