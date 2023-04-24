@@ -18,6 +18,7 @@
         import LandMap from "./map";
         import geojson from "./data/complete.json";
         import * as conditionalPopupProperties from "./config/conditional-popup-properties.json";
+        import * as colourOverrides from "./config/colour-overrides.json";
         import * as propertyLabels from "./config/property-labels.json";
 
         const urlSearch = new URLSearchParams(window.location.search);
@@ -42,6 +43,7 @@
             propertyLabels: propertyLabels,
             legendItemsChecked: legendItemsChecked,
             conditionalPopupProperties: conditionalPopupProperties,
+            colourOverrides: colourOverrides,
         });
     </script>
 </body>

@@ -30,6 +30,7 @@ const LandMap = async function(
   const legendItemsChecked: any = config["legendItemsChecked"] || [];
   const conditionalPopupProperties: any =
     config["conditionalPopupProperties"] || [];
+  const colourOverrides: any = config["colourOverrides"] || {};
   let propertyKeys = [];
 
   const map = new L.Map(mapElementId, {
@@ -67,7 +68,6 @@ const LandMap = async function(
     if (parcelPropertyValue === "") {
       parcelPropertyValue = legendParcelPropertyBlankValue;
     }
-
     if (legendParcelPropertyBucket) {
       parcelPropertyValue = roundNearest(
         parcelPropertyValue,
@@ -81,8 +81,11 @@ const LandMap = async function(
       parseInt(parcelPropertyValue.toString()[0])
       ]
       : "";
-    const hashcode = cyrb53(stringSeed + parcelPropertyValue);
-    const color = hlsGen(hashcode);
+    
+    let should_override_color=colourOverrides[`${legendParcelProperty} - ${parcelPropertyValue}`] != undefined;
+    const hashcode = should_override_color? null: cyrb53(stringSeed + parcelPropertyValue);
+    const color = should_override_color?colourOverrides[`${legendParcelProperty} - ${parcelPropertyValue}`]: hlsGen(hashcode);
+
 
     if (legendParcelItems[parcelPropertyValue]) {
       legendParcelItems[parcelPropertyValue]["count"]++;
