@@ -12,7 +12,7 @@ import * as excludeLegendProperties from "./config/exclude-legend-properties.jso
 import * as defaultPopupProperties from "./config/default-popup-properties.json";
 import * as CSV from "csv-string";
 
-const LandMap = async function(
+const LandMap = async function (
   geojson: any,
   mapElementId: string = "map",
   config: object
@@ -30,6 +30,7 @@ const LandMap = async function(
   const legendItemsChecked: any = config["legendItemsChecked"] || [];
   const conditionalPopupProperties: any =
     config["conditionalPopupProperties"] || [];
+  const colourOverrides: any = config["colourOverrides"] || {};
   let propertyKeys = [];
 
   const map = new L.Map(mapElementId, {
@@ -67,7 +68,6 @@ const LandMap = async function(
     if (parcelPropertyValue === "") {
       parcelPropertyValue = legendParcelPropertyBlankValue;
     }
-
     if (legendParcelPropertyBucket) {
       parcelPropertyValue = roundNearest(
         parcelPropertyValue,
@@ -78,11 +78,22 @@ const LandMap = async function(
     parcel["properties"][legendParcelProperty] = parcelPropertyValue;
     const stringSeed = legendParcelPropertyBucket
       ? ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"][
-      parseInt(parcelPropertyValue.toString()[0])
-      ]
+          parseInt(parcelPropertyValue.toString()[0])
+        ]
       : "";
-    const hashcode = cyrb53(stringSeed + parcelPropertyValue);
-    const color = hlsGen(hashcode);
+
+    let should_override_color =
+      colourOverrides[
+        `${propertyLabels[legendParcelProperty]} - ${parcelPropertyValue}`
+      ] != undefined;
+    const hashcode = should_override_color
+      ? null
+      : cyrb53(stringSeed + parcelPropertyValue);
+    const color = should_override_color
+      ? colourOverrides[
+          `${propertyLabels[legendParcelProperty]} - ${parcelPropertyValue}`
+        ]
+      : hlsGen(hashcode);
 
     if (legendParcelItems[parcelPropertyValue]) {
       legendParcelItems[parcelPropertyValue]["count"]++;
@@ -122,7 +133,7 @@ const LandMap = async function(
   layers.getLayers().forEach((layer) => {
     const color =
       legendParcelItems[layer.feature.properties[legendParcelProperty]][
-      "color"
+        "color"
       ];
     layer.setStyle({
       fillColor: color,
@@ -174,7 +185,7 @@ const LandMap = async function(
     contentString += "</div>";
     popup.setContent(contentString);
     layer.bindPopup(popup, { maxWidth: 500 });
-    layer.on("mouseover", function(e) {
+    layer.on("mouseover", function (e) {
       e.target.setStyle({
         fillOpacity: 0.75,
       });
@@ -250,7 +261,7 @@ const LandMap = async function(
 
       try {
         map.fitBounds(layers.getBounds(), { animate: true });
-      } catch (e) { }
+      } catch (e) {}
     });
 
     legendControl.updateMap(map);
