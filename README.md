@@ -9,13 +9,13 @@ Prototype Leaflet map using Ndifuna Ukwazi land parcel data.
 You can embed the map using an iframe e.g.
 
 ```
-<iframe src="https://nu-land-parcel-map.netlify.app"></iframe>
+<iframe src="https://nu-land-map.openup.org.za"></iframe>
 ```
 
 It will default to showing land parcels by the `Owner` property. To show land parcels by other properties add a `property` parameter to the URL with the _exact_ `property` name e.g. by `Suburb`
 
 ```
-<iframe src="https://nu-land-parcel-map.netlify.app?property=Suburb"></iframe>
+<iframe src="https://nu-land-map.openup.org.za?property=Suburb"></iframe>
 ```
 
 ### Import method
